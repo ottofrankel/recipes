@@ -63,12 +63,32 @@ const getRecipes = (req: Request, res: Response): void => {
     query.tags = { $all: tagsArr };
   }
 
-  console.log(query);
+  type Sort = {
+    name?: string;
+    dateAdded?: string;
+    dateUpdated?: string;
+  };
 
-  Recipe.find(query).exec((err, recipes) => {
-    if (err) throw err;
-    res.status(200).send(recipes);
-  });
+  let sort: Sort = {};
+
+  if (req.query.sort) {
+    const sortStr: string = req.query.sort as string;
+    const sortArr = sortStr.split(":");
+    let sortDir: string = sortArr[1].toLowerCase();
+
+    if (sortDir !== "asc" && sortDir !== "desc") sortDir = "";
+
+    if (sortArr[0] === "name") sort.name = sortDir;
+    else if (sortArr[0] === "dateAdded") sort.dateAdded = sortDir;
+    else if (sortArr[0] === "dateUpdated") sort.dateUpdated = sortDir;
+  }
+
+  Recipe.find(query)
+    .sort(sort)
+    .exec((err, recipes) => {
+      if (err) throw err;
+      res.status(200).send(recipes);
+    });
 };
 
 export { postRecipe, getRecipes };

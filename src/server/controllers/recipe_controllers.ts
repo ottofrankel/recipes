@@ -22,4 +22,53 @@ const postRecipe = async (req: Request, res: Response) => {
   res.status(200).json(recipe);
 };
 
-export { postRecipe };
+const getRecipes = (req: Request, res: Response): void => {
+  type StringQuery = {
+    $regex: string;
+    $options: string;
+  };
+
+  type TagQuery = {
+    $all: string[];
+  };
+
+  type Query = {
+    name?: StringQuery;
+    source?: StringQuery;
+    type?: string;
+    tags?: TagQuery;
+  };
+
+  let query: Query = {};
+
+  if (req.query.name) {
+    query.name = {
+      $regex: req.query.name as string,
+      $options: "i",
+    };
+  }
+
+  if (req.query.source) {
+    query.source = {
+      $regex: req.query.source as string,
+      $options: "i",
+    };
+  }
+
+  if (req.query.type) query.type = req.query.type as string;
+
+  if (req.query.tags) {
+    const tagsStr: string = req.query.tags as string;
+    const tagsArr: string[] = tagsStr.split(",");
+    query.tags = { $all: tagsArr };
+  }
+
+  console.log(query);
+
+  Recipe.find(query).exec((err, recipes) => {
+    if (err) throw err;
+    res.status(200).send(recipes);
+  });
+};
+
+export { postRecipe, getRecipes };

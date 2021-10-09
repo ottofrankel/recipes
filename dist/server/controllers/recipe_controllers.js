@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.postRecipe = void 0;
+exports.getRecipes = exports.postRecipe = void 0;
 const recipe_model_1 = require("../models/recipe_model");
 const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const today = new Date();
@@ -28,3 +28,32 @@ const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.status(200).json(recipe);
 });
 exports.postRecipe = postRecipe;
+const getRecipes = (req, res) => {
+    let query = {};
+    if (req.query.name) {
+        query.name = {
+            $regex: req.query.name,
+            $options: "i",
+        };
+    }
+    if (req.query.source) {
+        query.source = {
+            $regex: req.query.source,
+            $options: "i",
+        };
+    }
+    if (req.query.type)
+        query.type = req.query.type;
+    if (req.query.tags) {
+        const tagsStr = req.query.tags;
+        const tagsArr = tagsStr.split(",");
+        query.tags = { $all: tagsArr };
+    }
+    console.log(query);
+    recipe_model_1.Recipe.find(query).exec((err, recipes) => {
+        if (err)
+            throw err;
+        res.status(200).send(recipes);
+    });
+};
+exports.getRecipes = getRecipes;

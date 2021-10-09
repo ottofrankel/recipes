@@ -1,9 +1,10 @@
 import { Application } from "express";
 
-import { postRecipe } from "./controllers/recipe_controllers";
+import { postRecipe, getRecipes } from "./controllers/recipe_controllers";
 
 const router = (app: Application): void => {
   app.post("/api/recipes", postRecipe);
+  app.get("/api/recipes", getRecipes);
 };
 
 export default router;

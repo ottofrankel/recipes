@@ -26,4 +26,4 @@ const RecipeSchema: Schema = new Schema({
 });
 
 const Recipe: Model<RecipeInterface> = model("Recipe", RecipeSchema);
-export default Recipe;
+export { Recipe, RecipeInterface };

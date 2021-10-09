@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Recipe = void 0;
 const mongoose_1 = require("mongoose");
 const ingredient_1 = require("./ingredient");
 const RecipeSchema = new mongoose_1.Schema({
@@ -14,4 +15,4 @@ const RecipeSchema = new mongoose_1.Schema({
     fav: { type: Boolean, required: true },
 });
 const Recipe = (0, mongoose_1.model)("Recipe", RecipeSchema);
-exports.default = Recipe;
+exports.Recipe = Recipe;

@@ -28,6 +28,7 @@ const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.status(200).json(recipe);
 });
 exports.postRecipe = postRecipe;
+const getRecipe = (req, res) => { };
 const getRecipes = (req, res) => {
     let query = {};
     if (req.query.name) {

@@ -2,8 +2,8 @@ import { Recipe, RecipeInterface } from "../models/recipe_model";
 import { Request, Response } from "express";
 
 const postRecipe = async (req: Request, res: Response) => {
-  const today = new Date();
-  const date = `${today.getMonth()}/${
+  const today: Date = new Date();
+  const date: string = `${today.getMonth()}/${
     today.getDate() + 1
   }/${today.getFullYear()}`;
 
@@ -21,6 +21,8 @@ const postRecipe = async (req: Request, res: Response) => {
   recipe.save();
   res.status(200).json(recipe);
 };
+
+const getRecipe = (req: Request, res: Response): void => {};
 
 const getRecipes = (req: Request, res: Response): void => {
   type StringQuery = {

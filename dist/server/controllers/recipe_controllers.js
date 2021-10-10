@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRecipes = exports.getRecipe = exports.postRecipe = void 0;
+exports.deleteRecipe = exports.getRecipes = exports.getRecipe = exports.postRecipe = void 0;
 const recipe_model_1 = require("../models/recipe_model");
 // Post a recipe
 const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -88,3 +88,14 @@ const getRecipes = (req, res) => {
     });
 };
 exports.getRecipes = getRecipes;
+// Delete a recipe
+const deleteRecipe = (req, res) => {
+    var _a;
+    const id = (_a = req.recipe) === null || _a === void 0 ? void 0 : _a._id;
+    recipe_model_1.Recipe.deleteOne({ _id: id }).exec(err => {
+        if (err)
+            throw err;
+        res.status(200).send(id);
+    });
+};
+exports.deleteRecipe = deleteRecipe;

@@ -110,4 +110,14 @@ const getRecipes = (req: Request, res: Response): void => {
     });
 };
 
-export { postRecipe, getRecipe, getRecipes };
+// Delete a recipe
+const deleteRecipe = (req: Request, res: Response): void => {
+  const id: string = req.recipe?._id;
+
+  Recipe.deleteOne({_id: id}).exec(err => {
+    if (err) throw err;
+    res.status(200).send(id);
+  })
+}
+
+export { postRecipe, getRecipe, getRecipes, deleteRecipe };

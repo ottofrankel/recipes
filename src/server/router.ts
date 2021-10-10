@@ -1,7 +1,7 @@
 import { Application } from "express";
 
 import { Recipe } from "./models/recipe_model";
-import { postRecipe, getRecipe, getRecipes } from "./controllers/recipe_controllers";
+import { postRecipe, getRecipe, getRecipes, deleteRecipe } from "./controllers/recipe_controllers";
 
 const router = (app: Application): void => {
 
@@ -22,6 +22,7 @@ const router = (app: Application): void => {
   app.post("/api/recipes", postRecipe);
   app.get("/api/recipes", getRecipes);
   app.get("/api/recipes/:recipe", getRecipe);
+  app.delete("/api/recipes/:recipe", deleteRecipe);
 };
 
 export default router;

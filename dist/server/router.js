@@ -19,5 +19,6 @@ const router = (app) => {
     app.post("/api/recipes", recipe_controllers_1.postRecipe);
     app.get("/api/recipes", recipe_controllers_1.getRecipes);
     app.get("/api/recipes/:recipe", recipe_controllers_1.getRecipe);
+    app.delete("/api/recipes/:recipe", recipe_controllers_1.deleteRecipe);
 };
 exports.default = router;

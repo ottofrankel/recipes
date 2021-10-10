@@ -53,15 +53,19 @@ const getRecipes = (req, res) => {
     if (req.query.sort) {
         const sortStr = req.query.sort;
         const sortArr = sortStr.split(":");
-        let sortDir = sortArr[1].toLowerCase();
-        if (sortDir !== "asc" && sortDir !== "desc")
-            sortDir = "";
-        if (sortArr[0] === "name")
-            sort.name = sortDir;
-        else if (sortArr[0] === "dateAdded")
-            sort.dateAdded = sortDir;
-        else if (sortArr[0] === "dateUpdated")
-            sort.dateUpdated = sortDir;
+        if (sortArr[1]) {
+            let sortDir = sortArr[1].toLowerCase();
+            if (sortDir !== "asc" && sortDir !== "desc")
+                sortDir = "";
+            if (sortDir) {
+                if (sortArr[0] === "name")
+                    sort.name = sortDir;
+                else if (sortArr[0] === "dateAdded")
+                    sort.dateAdded = sortDir;
+                else if (sortArr[0] === "dateUpdated")
+                    sort.dateUpdated = sortDir;
+            }
+        }
     }
     recipe_model_1.Recipe.find(query)
         .sort(sort)

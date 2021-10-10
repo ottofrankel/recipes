@@ -9,16 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteRecipe = exports.getRecipes = exports.getRecipe = exports.postRecipe = void 0;
+exports.updateRecipe = exports.deleteRecipe = exports.getRecipes = exports.getRecipe = exports.postRecipe = void 0;
 const recipe_model_1 = require("../models/recipe_model");
 // Post a recipe
 const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const today = new Date();
-    const date = `${today.getMonth()}/${today.getDate() + 1}/${today.getFullYear()}`;
     const recipe = yield recipe_model_1.Recipe.create({
         name: req.body.name,
         source: req.body.source ? req.body.source : "",
-        dateAdded: date,
+        dateAdded: new Date(),
         type: req.body.type,
         ingredients: req.body.ingredients,
         instructions: req.body.instructions,
@@ -99,3 +97,14 @@ const deleteRecipe = (req, res) => {
     });
 };
 exports.deleteRecipe = deleteRecipe;
+// Update a recipe
+const updateRecipe = (req, res) => {
+    var _a;
+    recipe_model_1.Recipe.findOneAndUpdate({ _id: (_a = req.recipe) === null || _a === void 0 ? void 0 : _a._id }, { $set: Object.assign(Object.assign({}, req.body), { dateUpdated: new Date() }) }, { new: true })
+        .exec((err, recipe) => {
+        if (err)
+            throw err;
+        res.status(200).json(recipe);
+    });
+};
+exports.updateRecipe = updateRecipe;

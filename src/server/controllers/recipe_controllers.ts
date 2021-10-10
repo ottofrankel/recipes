@@ -1,17 +1,13 @@
-import { Recipe, RecipeInterface } from "../models/recipe_model";
 import { Request, Response } from "express";
+import { Recipe, RecipeInterface } from "../models/recipe_model";
+
 
 // Post a recipe
 const postRecipe = async (req: Request, res: Response) => {
-  const today: Date = new Date();
-  const date: string = `${today.getMonth()}/${
-    today.getDate() + 1
-  }/${today.getFullYear()}`;
-
   const recipe: RecipeInterface = await Recipe.create({
     name: req.body.name,
     source: req.body.source ? req.body.source : "",
-    dateAdded: date,
+    dateAdded: new Date(),
     type: req.body.type,
     ingredients: req.body.ingredients,
     instructions: req.body.instructions,
@@ -120,4 +116,13 @@ const deleteRecipe = (req: Request, res: Response): void => {
   })
 }
 
-export { postRecipe, getRecipe, getRecipes, deleteRecipe };
+// Update a recipe
+const updateRecipe = (req: Request, res: Response): void => {
+  Recipe.findOneAndUpdate({_id: req.recipe?._id}, {$set: {...req.body, dateUpdated: new Date()}}, {new: true})
+  .exec((err, recipe) => {
+    if (err) throw err;
+    res.status(200).json(recipe);
+  })
+}
+
+export { postRecipe, getRecipe, getRecipes, deleteRecipe, updateRecipe };

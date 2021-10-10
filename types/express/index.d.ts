@@ -1,4 +1,4 @@
-import { RecipeInterface } from "../server/models/recipe_model";
+import { RecipeInterface } from "../../src/server/models/recipe_model";
 
 declare module "express-serve-static-core" {
   interface Request {

@@ -18,6 +18,6 @@ const router = (app) => {
     });
     app.post("/api/recipes", recipe_controllers_1.postRecipe);
     app.get("/api/recipes", recipe_controllers_1.getRecipes);
-    app.get("/api/recipes/:recipe");
+    app.get("/api/recipes/:recipe", recipe_controllers_1.getRecipe);
 };
 exports.default = router;

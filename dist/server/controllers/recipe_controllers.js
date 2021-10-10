@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getRecipes = exports.postRecipe = void 0;
+exports.getRecipes = exports.getRecipe = exports.postRecipe = void 0;
 const recipe_model_1 = require("../models/recipe_model");
+// Post a recipe
 const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const today = new Date();
     const date = `${today.getMonth()}/${today.getDate() + 1}/${today.getFullYear()}`;
@@ -28,9 +29,15 @@ const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     res.status(200).json(recipe);
 });
 exports.postRecipe = postRecipe;
-const getRecipe = (req, res) => { };
+// Get a recipe
+const getRecipe = (req, res) => {
+    res.status(200).json(req.recipe);
+};
+exports.getRecipe = getRecipe;
+// Get multiple recipes
 const getRecipes = (req, res) => {
     let query = {};
+    // Name and source filters are case insenstive and search for passed value within the respective string values
     if (req.query.name) {
         query.name = {
             $regex: req.query.name,
@@ -45,6 +52,7 @@ const getRecipes = (req, res) => {
     }
     if (req.query.type)
         query.type = req.query.type;
+    // Get recipes that have all tags passed in the search
     if (req.query.tags) {
         const tagsStr = req.query.tags;
         const tagsArr = tagsStr.split(",");
@@ -54,8 +62,10 @@ const getRecipes = (req, res) => {
     if (req.query.sort) {
         const sortStr = req.query.sort;
         const sortArr = sortStr.split(":");
+        // Make sure a sort dir is passed
         if (sortArr[1]) {
             let sortDir = sortArr[1].toLowerCase();
+            // Make sure the sort dir is either asc or desc
             if (sortDir !== "asc" && sortDir !== "desc")
                 sortDir = "";
             if (sortDir) {
@@ -68,6 +78,7 @@ const getRecipes = (req, res) => {
             }
         }
     }
+    // Make the search
     recipe_model_1.Recipe.find(query)
         .sort(sort)
         .exec((err, recipes) => {

@@ -18,7 +18,7 @@ exports.recipeSlice = (0, toolkit_1.createSlice)({
     initialState,
     reducers: {
         getRecipe: (state, action) => {
-            return state;
+            state = action.payload;
         }
     }
 });

@@ -18,7 +18,7 @@ export const recipeSlice = createSlice({
   initialState,
   reducers: {
     getRecipe: (state, action: PayloadAction<RecipeInterface>) => {
-      return state;
+      state = action.payload;
     }
   }
 })

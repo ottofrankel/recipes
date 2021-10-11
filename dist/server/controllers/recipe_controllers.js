@@ -52,6 +52,8 @@ const getRecipes = (req, res) => {
     }
     if (req.query.type)
         query.type = req.query.type;
+    if (req.query.fav === 'true')
+        query.fav = true;
     // Get recipes that have all tags passed in the search
     if (req.query.tags) {
         const tagsStr = req.query.tags;
@@ -66,9 +68,7 @@ const getRecipes = (req, res) => {
         if (sortArr[1]) {
             let sortDir = sortArr[1].toLowerCase();
             // Make sure the sort dir is either asc or desc
-            if (sortDir !== "asc" && sortDir !== "desc")
-                sortDir = "";
-            if (sortDir) {
+            if (sortDir === "asc" || sortDir === "desc") {
                 if (sortArr[0] === "name")
                     sort.name = sortDir;
                 else if (sortArr[0] === "dateAdded")

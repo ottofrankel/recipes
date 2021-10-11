@@ -107,7 +107,6 @@
   "allowSyntheticDefaultImports": true,
   "noFallthroughCasesInSwitch": true,
   "resolveJsonModule": true,
-  "noEmit": true,
   "jsx": "react-jsx"
   },
   "include": [

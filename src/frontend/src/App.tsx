@@ -4,7 +4,7 @@ import IndividualRecipe from './components/indivdual_recipe';
 function App() {
   return (
     <Switch>
-      <Route exact path="/recipe" component={IndividualRecipe}></Route>
+      <Route exact path="/recipes/:id" component={IndividualRecipe}></Route>
     </Switch>
   );
 }

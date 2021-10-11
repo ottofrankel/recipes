@@ -1,14 +1,24 @@
-import React, { MouseEvent } from "react"
+import React, { useEffect } from "react"
+import { RouteComponentProps } from "react-router";
+import { useAppSelector } from "../hooks";
+import { RecipeInterface } from "../interfaces";
 import { fetchRecipe } from "../manage_state/action_dispatch/recipe_actions";
 
-const IndividualRecipe: React.FC = () => {
-  const handleClick = (e: MouseEvent) => {
-    fetchRecipe('6161d7d76eda10350312db76');
-  }
+interface MatchParams {
+  id: string;
+}
+
+const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => {
+  useEffect(() => {
+    fetchRecipe(props.match.params.id);
+  }, [props.match.params.id]);
+
+  const recipe: RecipeInterface = useAppSelector(state => state.recipe);
+  console.log(recipe);
 
   return(
     <div>
-      <button onClick={handleClick}>click me</button>
+      <p>{recipe.name}</p>
     </div>
   )
 }

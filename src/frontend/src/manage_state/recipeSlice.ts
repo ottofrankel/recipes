@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RecipeInterface } from '../interfaces';
 
 const initialState: RecipeInterface = {
+  _id: '',
   name: '',
   source: '',
   dateAdded: null,
@@ -18,7 +19,7 @@ export const recipeSlice = createSlice({
   initialState,
   reducers: {
     getRecipe: (state, action: PayloadAction<RecipeInterface>) => {
-      state = action.payload;
+      return action.payload;
     }
   }
 })

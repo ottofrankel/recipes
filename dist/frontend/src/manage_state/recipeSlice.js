@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getRecipe = exports.recipeSlice = void 0;
 const toolkit_1 = require("@reduxjs/toolkit");
 const initialState = {
+    _id: '',
     name: '',
     source: '',
     dateAdded: null,
@@ -18,7 +19,7 @@ exports.recipeSlice = (0, toolkit_1.createSlice)({
     initialState,
     reducers: {
         getRecipe: (state, action) => {
-            state = action.payload;
+            return action.payload;
         }
     }
 });

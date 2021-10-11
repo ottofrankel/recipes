@@ -5,6 +5,7 @@ interface IngInterface {
 }
 
 export interface RecipeInterface {
+  _id: string;
   name: string;
   source: string;
   dateAdded: Date | null;

@@ -1,6 +1,9 @@
 import React, { useEffect} from "react";
+import { SimpleGrid } from "@chakra-ui/layout";
 import { useAppSelector } from "../hooks";
 import { fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
+import { RecipeInterface } from "../interfaces";
+import RecipeListItem from "./recipe_list_item";
 
 const RecipeList: React.FC = () => {
   useEffect(() => {
@@ -9,10 +12,25 @@ const RecipeList: React.FC = () => {
 
   const recipes = useAppSelector(state => state.recipeList);
 
-  console.log(recipes);
+  const renderRecipes = (): any => {
+    return (
+      recipes.map((recipe: RecipeInterface) => {
+        if (recipe._id) {
+          return (
+            <RecipeListItem recipe={recipe} key={recipe._id}/>
+          )
+        }
+
+        return <div></div>;
+      })
+    )
+  }
 
   return(
     <div>
+      <SimpleGrid columns={3} spacing={10}>
+        {renderRecipes()}
+      </SimpleGrid>
     </div>
   )
 }

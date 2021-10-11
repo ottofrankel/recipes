@@ -40,6 +40,7 @@ const getRecipes = (req: Request, res: Response): void => {
     name?: StringQuery;
     source?: StringQuery;
     type?: string;
+    fav?: boolean;
     tags?: TagQuery;
   };
 
@@ -61,6 +62,7 @@ const getRecipes = (req: Request, res: Response): void => {
   }
 
   if (req.query.type) query.type = req.query.type as string;
+  if (req.query.fav === 'true') query.fav = true;
 
   // Get recipes that have all tags passed in the search
   if (req.query.tags) {
@@ -87,9 +89,7 @@ const getRecipes = (req: Request, res: Response): void => {
       let sortDir: string = sortArr[1].toLowerCase();
 
       // Make sure the sort dir is either asc or desc
-      if (sortDir !== "asc" && sortDir !== "desc") sortDir = "";
-
-      if (sortDir) {
+      if (sortDir === "asc" || sortDir === "desc") {
         if (sortArr[0] === "name") sort.name = sortDir;
         else if (sortArr[0] === "dateAdded") sort.dateAdded = sortDir;
         else if (sortArr[0] === "dateUpdated") sort.dateUpdated = sortDir;

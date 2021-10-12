@@ -23,4 +23,5 @@ export interface QueryInterface {
   type?: string;
   fav?: boolean;
   tags?: string;
+  sort?:string;
 }

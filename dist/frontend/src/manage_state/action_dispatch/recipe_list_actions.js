@@ -21,6 +21,8 @@ const fetchRecipes = (query) => {
         queryString += '&fav=true';
     if (query.tags)
         queryString += '&tags=' + query.tags;
+    if (query.sort)
+        queryString += '&sort=' + query.sort;
     axios_1.default.get(`${constants_1.BASE_API_URL}/recipes${queryString}`)
         .then(res => {
         store_1.store.dispatch((0, recipeListSlice_1.getRecipes)(res.data));

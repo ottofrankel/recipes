@@ -13,6 +13,7 @@ export const fetchRecipes = (query: QueryInterface): void => {
   if (query.type) queryString += '&type=' + query.type;
   if (query.fav) queryString += '&fav=true';
   if (query.tags) queryString += '&tags=' + query.tags;
+  if (query.sort) queryString += '&sort=' + query.sort;
 
   axios.get(`${BASE_API_URL}/recipes${queryString}`)
   .then(res => {

@@ -41,3 +41,7 @@ code {
 .result-source {
   font-weight: 400;
 }
+
+.nav-link:hover {
+  color: #b0eade;
+}

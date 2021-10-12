@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import { useAppSelector } from "../hooks";
 import { Heading, Center } from "@chakra-ui/layout";
 import RecipeList from "./recipe_list";
 import { BASE_COLOR } from "../styles/colors";
@@ -10,15 +9,13 @@ const Homescreen: React.FC = () => {
     fetchFavs();
   }, []);
 
-  const recipes = useAppSelector(state => state.favs);
-
   return (
     <div>
       <Center>
         <Heading as="h2" color={BASE_COLOR}>Your Favorites</Heading>
       </Center>
 
-      <RecipeList recipes={recipes}/>
+      <RecipeList listType={"favs"}/>
     </div>
   )
 }

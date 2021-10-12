@@ -5,12 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsx_runtime_1 = require("react/jsx-runtime");
 const layout_1 = require("@chakra-ui/layout");
+const hooks_1 = require("../hooks");
 const recipe_list_item_1 = __importDefault(require("./recipe_list_item"));
-const RecipeList = ({ recipes }) => {
-    // useEffect(() => {
-    //   fetchRecipes({});
-    // }, []);
-    // const recipes = useAppSelector(state => state.recipeList);
+const RecipeList = ({ listType }) => {
+    const recipeList = (0, hooks_1.useAppSelector)(state => state.recipeList);
+    const favs = (0, hooks_1.useAppSelector)(state => state.favs);
+    let recipes = [];
+    if (listType === 'favs')
+        recipes = favs;
+    else
+        recipes = recipeList;
     const renderRecipes = () => {
         return (recipes.map((recipe) => {
             if (recipe._id) {

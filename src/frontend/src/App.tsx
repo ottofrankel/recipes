@@ -9,8 +9,14 @@ function App() {
     <div>
       <Navbar />
       <Switch>
-        <Route exact path="/" component={Homescreen}></Route>
-        <Route exact path="/recipes" component={RecipeList}></Route>
+        <Route exact path="/">
+          <Homescreen />
+        </Route>
+        
+        <Route exact path="/recipes">
+          <RecipeList listType={"all"}/>
+        </Route>
+
         <Route exact path="/recipes/:id" component={IndividualRecipe}></Route>
       </Switch>
     </div>

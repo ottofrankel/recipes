@@ -1,20 +1,24 @@
-import React, { useEffect} from "react";
+import React from "react";
 import { SimpleGrid } from "@chakra-ui/layout";
 import { useAppSelector } from "../hooks";
-import { fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
 import { RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
 
 interface Props {
-  recipes: RecipeInterface[];
+  listType: 'all' | 'favs';
 }
 
-const RecipeList: React.FC<Props> = ({ recipes }) => {
-  // useEffect(() => {
-  //   fetchRecipes({});
-  // }, []);
+const RecipeList: React.FC<Props> = ({ listType }) => {
 
-  // const recipes = useAppSelector(state => state.recipeList);
+  const recipeList = useAppSelector(state => state.recipeList);
+  const favs = useAppSelector(state => state.favs);
+
+  let recipes: RecipeInterface[] = [];
+
+  if (listType === 'favs')
+    recipes = favs;
+  else
+    recipes = recipeList;
 
   const renderRecipes = (): any => {
     return (

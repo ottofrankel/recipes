@@ -28,7 +28,7 @@ const RecipeList: React.FC = () => {
 
   return(
     <div>
-      <SimpleGrid columns={3} spacing={10}>
+      <SimpleGrid columns={[1, 3, 4]} spacing={10} m={3}>
         {renderRecipes()}
       </SimpleGrid>
     </div>

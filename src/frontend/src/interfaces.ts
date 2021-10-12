@@ -1,4 +1,5 @@
-interface IngInterface {
+export interface IngInterface {
+  _id: string;
   name: string;
   amount: string;
   measurement?: string;

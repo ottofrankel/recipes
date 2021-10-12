@@ -45,3 +45,9 @@ code {
 .nav-link:hover {
   color: #b0eade;
 }
+
+.recipe-name {
+  color: #16a085;
+  font-weight: 300;
+  font-size: 250%;
+}

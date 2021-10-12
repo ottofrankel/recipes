@@ -19,7 +19,7 @@ html {
   background-color: #fff;
   color: #292929;
   font-family: 'Roboto', 'Arial', sans-serif;
-  font-size: 28px;
+  font-size: 20px;
   text-rendering: optimizeLegibility;
 }
 
@@ -39,6 +39,5 @@ code {
 }
 
 .result-source {
-  font-size: 80%;
   font-weight: 400;
 }

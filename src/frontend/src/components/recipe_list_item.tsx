@@ -23,8 +23,8 @@ const RecipeListItem: React.FC<Props> = ({recipe}) => {
   return (
     <Box maxW="sm" borderWidth="1px" borderRadius="lg" borderColor="#16a085" overflow="hidden">
       <Box ml="1">
-        <Box className="result-header" fontSize="md">
-          <Link to={`/recipes/${recipe._id}`}>{recipe.name}</Link>
+        <Box>
+          <Link className="result-header" to={`/recipes/${recipe._id}`}>{recipe.name}</Link>
         </Box>
         <Box className="result-source">From: {recipe.source ? recipe.source : <em>unknown</em>}</Box>
         <HStack spacing={1} mb="2">

@@ -2,12 +2,11 @@ import { Box, Grid, GridItem, Heading, HStack} from "@chakra-ui/layout";
 import React from "react";
 import { Link } from "react-router-dom";
 import { BASE_COLOR } from "../styles/colors";
-import { fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
 
 const Navbar: React.FC = () => {
-  const onRecipesClick = (): void => {
-    fetchRecipes({sort: "name:asc"});
-  }
+  // const onRecipesClick = (): void => {
+  //   fetchRecipes({sort: "name:asc"});
+  // }
 
   return (
     <Box>
@@ -21,7 +20,7 @@ const Navbar: React.FC = () => {
         <GridItem colStart={4}>
 
           <HStack color="white" spacing={3} mt={2}>
-            <Link className="nav-link" to="/recipes" onClick={onRecipesClick}>Your Recipes</Link>
+            <Link className="nav-link" to="/recipes?sort=name:asc">Your Recipes</Link>
             <Link className="nav-link" to="/">Favorites</Link>
             <p className="nav-link">Add Recipe</p>
           </HStack>

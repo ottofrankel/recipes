@@ -14,7 +14,7 @@ function App() {
         </Route>
         
         <Route exact path="/recipes">
-          <RecipeList listType={"all"}/>
+          <RecipeList favsOnly={false}/>
         </Route>
 
         <Route exact path="/recipes/:id" component={IndividualRecipe}></Route>

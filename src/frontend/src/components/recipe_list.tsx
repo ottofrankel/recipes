@@ -1,21 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useLocation } from "react-router";
 import { SimpleGrid } from "@chakra-ui/layout";
 import { useAppSelector } from "../hooks";
+import { fetchFavs, fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
 import { RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
 
 interface Props {
-  listType: 'all' | 'favs';
+  favsOnly: boolean
 }
 
-const RecipeList: React.FC<Props> = ({ listType }) => {
+const RecipeList: React.FC<Props> = ({ favsOnly }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (!favsOnly)
+      fetchRecipes(location.search);
+    else
+      fetchFavs();
+  }, [location, favsOnly])
 
   const recipeList = useAppSelector(state => state.recipeList);
   const favs = useAppSelector(state => state.favs);
 
   let recipes: RecipeInterface[] = [];
 
-  if (listType === 'favs')
+  if (favsOnly)
     recipes = favs;
   else
     recipes = recipeList;

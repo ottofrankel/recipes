@@ -16,3 +16,11 @@ export interface RecipeInterface {
   tags: string[];
   fav: boolean;
 }
+
+export interface QueryInterface {
+  name?: string;
+  source?: string;
+  type?: string;
+  fav?: boolean;
+  tags?: string;
+}

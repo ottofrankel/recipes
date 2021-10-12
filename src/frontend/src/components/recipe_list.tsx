@@ -5,12 +5,16 @@ import { fetchRecipes } from "../manage_state/action_dispatch/recipe_list_action
 import { RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
 
-const RecipeList: React.FC = () => {
-  useEffect(() => {
-    fetchRecipes();
-  }, []);
+interface Props {
+  recipes: RecipeInterface[];
+}
 
-  const recipes = useAppSelector(state => state.recipeList);
+const RecipeList: React.FC<Props> = ({ recipes }) => {
+  // useEffect(() => {
+  //   fetchRecipes({});
+  // }, []);
+
+  // const recipes = useAppSelector(state => state.recipeList);
 
   const renderRecipes = (): any => {
     return (

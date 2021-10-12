@@ -22,6 +22,6 @@ const RecipeList = () => {
             return (0, jsx_runtime_1.jsx)("div", {}, void 0);
         }));
     };
-    return ((0, jsx_runtime_1.jsx)("div", { children: (0, jsx_runtime_1.jsx)(layout_1.SimpleGrid, Object.assign({ columns: 3, spacing: 10 }, { children: renderRecipes() }), void 0) }, void 0));
+    return ((0, jsx_runtime_1.jsx)("div", { children: (0, jsx_runtime_1.jsx)(layout_1.SimpleGrid, Object.assign({ columns: [1, 3, 4], spacing: 10, m: 3 }, { children: renderRecipes() }), void 0) }, void 0));
 };
 exports.default = RecipeList;

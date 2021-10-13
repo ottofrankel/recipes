@@ -9,9 +9,12 @@ export const recipeListSlice = createSlice({
   reducers: {
     getRecipes: (state, action: PayloadAction<RecipeInterface[]>) => {
       return action.payload;
+    },
+    newRecipe: (state, action: PayloadAction<RecipeInterface>) => {
+      return [...state, action.payload]
     }
   }
 })
 
-export const { getRecipes } = recipeListSlice.actions;
+export const { getRecipes, newRecipe } = recipeListSlice.actions;
 export default recipeListSlice.reducer;

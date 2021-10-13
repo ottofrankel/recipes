@@ -4,23 +4,21 @@ import { Input } from "@chakra-ui/input";
 import { Center, VStack, Box, HStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Textarea } from "@chakra-ui/textarea";
-import { Checkbox } from "@chakra-ui/react"
 import React, { useState} from "react";
+import { useHistory } from "react-router";
+import { IngInterface, RecipeInterface } from "../interfaces";
 import { BASE_COLOR } from "../styles/colors";
+import { postRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
 
 const AddRecipeForm: React.FC = () => {
-  interface NewIng {
-    name: string;
-    measurment?: string;
-    amount: string;
-  }
+  const history = useHistory();
 
-  let initialIngs: NewIng[] = [];
+  let initialIngs: IngInterface[] = [];
 
   for (let i = 0; i < 6; i++) {
-    const ingInput: NewIng = {
+    const ingInput: IngInterface = {
       name: "",
-      measurment: "",
+      measurement: "",
       amount: ""
     }
     initialIngs.push(ingInput);
@@ -33,20 +31,37 @@ const AddRecipeForm: React.FC = () => {
   const [instructions, setInstructions] = useState('');
   const [tags, setTags] = useState('');
 
-  const handleIngChange = (index: number, e: React.ChangeEvent<HTMLInputElement>, key: "amount" | "measurment" | "name") => {
+  const handleIngChange = (index: number, e: React.ChangeEvent<HTMLInputElement>, key: "amount" | "measurement" | "name") => {
     let newIngValues = [...ingValues];
     newIngValues[index][key] = e.currentTarget.value;
     setIngValues(newIngValues);
   }
   
   const newIngFields = () => {
-    setIngValues([...ingValues, {amount: "", measurment: "", name: ""}])
+    setIngValues([...ingValues, {amount: "", measurement: "", name: ""}])
   }
 
   const removeIngFields = (index: number) => {
     let newIngValues = [...ingValues];
     newIngValues.splice(index, 1);
     setIngValues(newIngValues);
+  }
+
+  const newRecipeSubmit = () => {
+    const ingredients = ingValues.filter(ing => ing.amount && ing.name);
+
+    const newRecipe: RecipeInterface = {
+      name: name,
+      source: source,
+      type: type,
+      ingredients: ingredients,
+      instructions: instructions,
+      tags: tags.split(","),
+      fav: false
+    }
+
+    postRecipe(newRecipe);
+    history.push("/recipes?sort=name:asc")
   }
 
   return (
@@ -112,14 +127,14 @@ const AddRecipeForm: React.FC = () => {
                 />
 
                 <Input 
-                value={element.measurment}
+                value={element.measurement}
                 key={"measurement" + index} 
-                id={"measurment-" + index} 
+                id={"measurement-" + index} 
                 placeholder="measurement" 
                 w="24"
                 size="xs"
                 m="1"
-                onChange={e => handleIngChange(index, e, "measurment")}
+                onChange={e => handleIngChange(index, e, "measurement")}
                 />
 
                 <Input 
@@ -191,6 +206,7 @@ const AddRecipeForm: React.FC = () => {
         bg={BASE_COLOR}
         color="white"
         _hover={{bg: "#1dbb9b"}}
+        onClick={newRecipeSubmit}
         >
           Add Recipe
         </Button>

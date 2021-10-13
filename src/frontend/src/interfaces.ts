@@ -1,16 +1,16 @@
 export interface IngInterface {
-  _id: string;
+  _id?: string;
   name: string;
   amount: string;
   measurement?: string;
 }
 
 export interface RecipeInterface {
-  _id: string;
+  _id?: string;
   name: string;
   source: string;
-  dateAdded: Date | null;
-  dateUpdated: Date | null;
+  dateAdded?: Date | null;
+  dateUpdated?: Date | null;
   type: string;
   ingredients: IngInterface[];
   instructions: string;

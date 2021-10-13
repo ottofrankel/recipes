@@ -46,8 +46,13 @@ code {
   color: #b0eade;
 }
 
-.recipe-name {
+.page-title {
   color: #16a085;
   font-weight: 300;
   font-size: 250%;
+}
+
+.tag-instructions {
+  color: #696969;
+  font-size: 50%;
 }

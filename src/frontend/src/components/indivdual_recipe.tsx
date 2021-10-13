@@ -38,7 +38,7 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
     <div>
       <Center mt={10}>
         <VStack spacing={3}>
-          <h2 className="recipe-name">{recipe.name}</h2>
+          <h2 className="page-title">{recipe.name}</h2>
           <HStack spacing={10}>
             <h4>{recipe.type}</h4>
             {recipe.source && <h4><strong>From:</strong> {recipe.source}</h4>}

@@ -56,3 +56,8 @@ code {
   color: #696969;
   font-size: 50%;
 }
+
+.validationError {
+  color: red;
+  font-size: 50%;
+}

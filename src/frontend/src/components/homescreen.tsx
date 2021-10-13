@@ -1,13 +1,12 @@
 import React from "react";
-import { Heading, Center } from "@chakra-ui/layout";
+import { Center } from "@chakra-ui/layout";
 import RecipeList from "./recipe_list";
-import { BASE_COLOR } from "../styles/colors";
 
 const Homescreen: React.FC = () => {
   return (
     <div>
       <Center>
-        <Heading as="h2" color={BASE_COLOR}>Your Favorites</Heading>
+        <h2 className="page-title">Your Favorites</h2>
       </Center>
 
       <RecipeList favsOnly={true}/>

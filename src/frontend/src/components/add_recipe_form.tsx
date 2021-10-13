@@ -24,12 +24,22 @@ const AddRecipeForm: React.FC = () => {
     initialIngs.push(ingInput);
   }
 
+  interface Errors {
+    name?: string,
+    type?: string,
+    ingredients?: string,
+    instructions?: string
+  }
+
+  const preValidation: Errors = {};
+
   const [ingValues, setIngValues] = useState(initialIngs);
   const [name, setName] = useState('');
   const [source, setSource] = useState('');
   const [type, setType] = useState('');
   const [instructions, setInstructions] = useState('');
   const [tags, setTags] = useState('');
+  const [errors, setErrors] = useState(preValidation);
 
   const handleIngChange = (index: number, e: React.ChangeEvent<HTMLInputElement>, key: "amount" | "measurement" | "name") => {
     let newIngValues = [...ingValues];
@@ -47,21 +57,63 @@ const AddRecipeForm: React.FC = () => {
     setIngValues(newIngValues);
   }
 
-  const newRecipeSubmit = () => {
+  const checkErrors = () => {
+    let hasError: boolean = false;
+    let validationErrors: Errors = {};
+
     const ingredients = ingValues.filter(ing => ing.amount && ing.name);
 
-    const newRecipe: RecipeInterface = {
-      name: name,
-      source: source,
-      type: type,
-      ingredients: ingredients,
-      instructions: instructions,
-      tags: tags.split(","),
-      fav: false
+    if (ingredients.length === 0) {
+      validationErrors.ingredients = "Recipe must have at least one ingredient"
+      hasError = true;
+    } else {
+      for (let i = 0; i < ingValues.length; i++) {
+        const curr = ingValues[i];
+  
+        if (curr.name || curr.amount || curr.measurement) {
+          if (!curr.name || !curr.amount) {
+            validationErrors.ingredients = "Each ingredient must have name and amount"
+            hasError = true;
+          }     
+        }
+      }
     }
 
-    postRecipe(newRecipe);
-    history.push("/recipes?sort=name:asc")
+    if (!name) {
+      validationErrors.name = "Required"
+      hasError = true;
+    }
+    if (!type) {
+      validationErrors.type = "Required"
+      hasError = true;
+    }
+    if (!instructions) {
+      validationErrors.instructions = "Required"
+      hasError = true;
+    }
+
+    setErrors(validationErrors);
+    return hasError;
+  }
+
+  const newRecipeSubmit = () => {
+    if (!checkErrors()) {
+      const ingredients = ingValues.filter(ing => ing.amount && ing.name);
+
+      let newRecipe: RecipeInterface = {
+        name: name,
+        source: source,
+        type: type,
+        ingredients: ingredients,
+        instructions: instructions,
+        fav: false
+      }
+
+      if (tags) newRecipe.tags = tags.split(",");
+
+      postRecipe(newRecipe);
+      history.push("/recipes?sort=name:asc")
+    }  
   }
 
   return (
@@ -79,6 +131,7 @@ const AddRecipeForm: React.FC = () => {
              onChange={e => setName(e.target.value)}
              />
           </HStack>
+          {errors.name && <p className="validationError">{errors.name}</p>}
         </Box>
         
         <Box>
@@ -108,6 +161,7 @@ const AddRecipeForm: React.FC = () => {
               <option value="other">Snack</option>
             </Select>
           </HStack>
+          {errors.type && <p className="validationError">{errors.type}</p>}
         </Box>
 
         <Box>
@@ -174,6 +228,7 @@ const AddRecipeForm: React.FC = () => {
           >
             Add ingredient
           </Button>
+          {errors.ingredients && <p className="validationError">{errors.ingredients}</p>}
         </Box>
         
         <Box w={550}>
@@ -185,6 +240,7 @@ const AddRecipeForm: React.FC = () => {
            fontSize={12}
            onChange={e => setInstructions(e.target.value)}
           />
+          {errors.instructions && <p className="validationError">{errors.instructions}</p>}
         </Box>
 
         <Box>

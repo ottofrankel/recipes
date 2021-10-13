@@ -22,7 +22,7 @@ const Navbar: React.FC = () => {
           <HStack color="white" spacing={3} mt={2}>
             <Link className="nav-link" to="/recipes?sort=name:asc">Your Recipes</Link>
             <Link className="nav-link" to="/">Favorites</Link>
-            <p className="nav-link">Add Recipe</p>
+            <Link className="nav-link" to="/add-recipe">Add Recipe</Link>
           </HStack>
 
         </GridItem>

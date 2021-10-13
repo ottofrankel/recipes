@@ -11,7 +11,7 @@ interface Props {
 const TagGrid: React.FC<Props> = ({ recipe }) => {
   const renderTags = () => {
     return (
-      recipe.tags.map((tag: string, index) => {
+      recipe.tags?.map((tag: string, index) => {
         return (
           <Tag 
           fontSize="small" 

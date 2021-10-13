@@ -1,10 +1,22 @@
+import { Button } from "@chakra-ui/button";
 import { Center, HStack, VStack, Container } from "@chakra-ui/layout";
 import { List, ListItem } from "@chakra-ui/layout";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure
+} from "@chakra-ui/react"
 import React, { useEffect } from "react"
-import { RouteComponentProps } from "react-router";
+import { RouteComponentProps, useHistory } from "react-router";
 import { useAppSelector } from "../hooks";
 import { IngInterface, RecipeInterface } from "../interfaces";
 import { fetchRecipe } from "../manage_state/action_dispatch/recipe_actions";
+import { deleteRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
 import TagGrid from "./TagGrid";
 
 interface MatchParams {
@@ -16,7 +28,16 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
     fetchRecipe(props.match.params.id);
   }, [props.match.params.id]);
 
+  const history = useHistory();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const recipe: RecipeInterface = useAppSelector(state => state.recipe);
+
+  const handleDeleteClick = () => {
+    deleteRecipe(recipe._id);
+    history.push("/recipes?sort=name:asc")
+  }
 
   const renderIngredients = () => {
     return (
@@ -54,8 +75,33 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
           <TagGrid recipe={recipe}/>
 
+          <HStack>
+            <Button 
+            size="xs"
+            colorScheme="red"
+            onClick={onOpen}
+            >
+              Delete
+            </Button>
+          </HStack>
         </VStack>            
-      </Center>     
+      </Center>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Delete '{recipe.name}'?</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalFooter>
+            <Button colorScheme="red" mr={3} onClick={handleDeleteClick}>
+              Delete
+            </Button>
+            <Button variant="ghost" onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
     </div>
   )
 }

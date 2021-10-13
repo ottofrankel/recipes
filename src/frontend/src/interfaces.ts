@@ -15,7 +15,7 @@ export interface RecipeInterface {
   ingredients: IngInterface[];
   instructions: string;
   tags?: string[];
-  fav: boolean;
+  fav?: boolean;
 }
 
 export interface QueryInterface {

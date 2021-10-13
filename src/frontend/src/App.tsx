@@ -4,6 +4,7 @@ import Homescreen from './components/homescreen';
 import IndividualRecipe from './components/indivdual_recipe';
 import Navbar from './components/navbar';
 import RecipeList from './components/recipe_list';
+import UpdateRecipeForm from './components/update_recipe_form';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route exact path="/recipes/:id" component={IndividualRecipe}/>
 
         <Route exact path="/add-recipe" component={AddRecipeForm}/>
+
+        <Route exact path="/update-recipe/:id" component={UpdateRecipeForm}/>
       </Switch>
     </div>
   );

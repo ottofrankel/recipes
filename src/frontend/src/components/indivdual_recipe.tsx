@@ -7,7 +7,6 @@ import {
   ModalContent,
   ModalHeader,
   ModalFooter,
-  ModalBody,
   ModalCloseButton,
   useDisclosure
 } from "@chakra-ui/react"
@@ -17,6 +16,7 @@ import { useAppSelector } from "../hooks";
 import { IngInterface, RecipeInterface } from "../interfaces";
 import { fetchRecipe } from "../manage_state/action_dispatch/recipe_actions";
 import { deleteRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
+import { BASE_COLOR } from "../styles/colors";
 import TagGrid from "./TagGrid";
 
 interface MatchParams {
@@ -76,6 +76,16 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
           <TagGrid recipe={recipe}/>
 
           <HStack>
+            <Button 
+            size="xs"
+            bg={BASE_COLOR}
+            color="white"
+            _hover={{bg: "#1dbb9b"}}
+            onClick={() => history.push("/update-recipe/" + recipe._id)}
+            >
+              Update Recipe
+            </Button>
+
             <Button 
             size="xs"
             colorScheme="red"

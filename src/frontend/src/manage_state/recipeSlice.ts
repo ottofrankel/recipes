@@ -18,11 +18,11 @@ export const recipeSlice = createSlice({
   name: 'recipe',
   initialState,
   reducers: {
-    getRecipe: (state, action: PayloadAction<RecipeInterface>) => {
+    setRecipe: (state, action: PayloadAction<RecipeInterface>) => {
       return action.payload;
-    }
+    },
   }
 })
 
-export const { getRecipe } = recipeSlice.actions;
+export const { setRecipe } = recipeSlice.actions;
 export default recipeSlice.reducer;

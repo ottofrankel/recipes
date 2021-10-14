@@ -5,8 +5,8 @@ const initialState: RecipeInterface = {
   _id: '',
   name: '',
   source: '',
-  dateAdded: null,
-  dateUpdated: null,
+  dateAdded: '',
+  dateUpdated: '',
   type: '',
   ingredients: [],
   instructions: '',
@@ -19,7 +19,15 @@ export const recipeSlice = createSlice({
   initialState,
   reducers: {
     setRecipe: (state, action: PayloadAction<RecipeInterface>) => {
-      return action.payload;
+      const createDate = action.payload.dateAdded?.split(',')[0];
+      const updateDate = action.payload.dateUpdated?.split(',')[0];
+
+      let recipe = {...action.payload}
+
+      recipe.dateAdded = createDate ?? '';
+      recipe.dateUpdated = updateDate ?? '';
+
+      return recipe;
     },
   }
 })

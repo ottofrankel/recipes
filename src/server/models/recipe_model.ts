@@ -4,8 +4,8 @@ import { IngSchema, IngInterface } from "./ingredient";
 interface RecipeInterface extends Document {
   name: string;
   source?: string;
-  dateAdded: Date;
-  dateUpdated?: Date;
+  dateAdded: string;
+  dateUpdated?: string;
   type: string;
   ingredients: Types.DocumentArray<IngInterface>;
   instructions: string;
@@ -16,8 +16,8 @@ interface RecipeInterface extends Document {
 const RecipeSchema: Schema = new Schema({
   name: { type: String, required: true },
   source: String,
-  dateAdded: { type: Date, required: true },
-  dateUpdated: Date,
+  dateAdded: { type: String, required: true },
+  dateUpdated: String,
   type: { type: String, required: true },
   ingredients: { type: [IngSchema], required: true },
   instructions: { type: String, required: true },

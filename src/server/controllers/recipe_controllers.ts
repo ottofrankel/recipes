@@ -7,7 +7,7 @@ const postRecipe = async (req: Request, res: Response) => {
   const recipe: RecipeInterface = await Recipe.create({
     name: req.body.name,
     source: req.body.source ? req.body.source : "",
-    dateAdded: new Date(),
+    dateAdded: new Date(Date.now()).toLocaleString(),
     type: req.body.type,
     ingredients: req.body.ingredients,
     instructions: req.body.instructions,
@@ -118,7 +118,7 @@ const deleteRecipe = (req: Request, res: Response): void => {
 
 // Update a recipe
 const updateRecipe = (req: Request, res: Response): void => {
-  Recipe.findOneAndUpdate({_id: req.recipe?._id}, {$set: {...req.body, dateUpdated: new Date()}}, {new: true})
+  Recipe.findOneAndUpdate({_id: req.recipe?._id}, {$set: {...req.body, dateUpdated: new Date(Date.now()).toLocaleString()}}, {new: true})
   .exec((err, recipe) => {
     if (err) throw err;
     res.status(200).json(recipe);

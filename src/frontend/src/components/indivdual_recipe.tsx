@@ -67,8 +67,13 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
       <Center mt={10}>
         <VStack spacing={3}>
           <h2 className="page-title">{recipe.name}</h2>
+          <HStack spacing={5}>
+            <p className="date">Date created: {recipe.dateAdded}</p>
+            {recipe.dateUpdated && <p className="date">Last updated: {recipe.dateUpdated}</p>}
+          </HStack> 
+
           <HStack spacing={10}>
-            <h4>{recipe.type}</h4>
+            <h4><strong>{recipe.type}</strong></h4>
             {recipe.source && <h4><strong>From:</strong> {recipe.source}</h4>}
           </HStack>  
  

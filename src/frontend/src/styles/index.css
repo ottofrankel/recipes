@@ -69,3 +69,7 @@ code {
 .fav-icon:hover{
   cursor: pointer;
 }
+
+.date {
+  font-size: 80%;
+}

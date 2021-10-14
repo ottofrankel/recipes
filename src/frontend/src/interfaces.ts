@@ -9,8 +9,8 @@ export interface RecipeInterface {
   _id?: string;
   name: string;
   source: string;
-  dateAdded?: Date | null;
-  dateUpdated?: Date | null;
+  dateAdded?: string;
+  dateUpdated?: string;
   type: string;
   ingredients: IngInterface[];
   instructions: string;

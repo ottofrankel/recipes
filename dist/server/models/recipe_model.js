@@ -6,8 +6,8 @@ const ingredient_1 = require("./ingredient");
 const RecipeSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     source: String,
-    dateAdded: { type: Date, required: true },
-    dateUpdated: Date,
+    dateAdded: { type: String, required: true },
+    dateUpdated: String,
     type: { type: String, required: true },
     ingredients: { type: [ingredient_1.IngSchema], required: true },
     instructions: { type: String, required: true },

@@ -16,7 +16,7 @@ const postRecipe = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const recipe = yield recipe_model_1.Recipe.create({
         name: req.body.name,
         source: req.body.source ? req.body.source : "",
-        dateAdded: new Date(),
+        dateAdded: new Date(Date.now()).toLocaleString(),
         type: req.body.type,
         ingredients: req.body.ingredients,
         instructions: req.body.instructions,
@@ -100,7 +100,7 @@ exports.deleteRecipe = deleteRecipe;
 // Update a recipe
 const updateRecipe = (req, res) => {
     var _a;
-    recipe_model_1.Recipe.findOneAndUpdate({ _id: (_a = req.recipe) === null || _a === void 0 ? void 0 : _a._id }, { $set: Object.assign(Object.assign({}, req.body), { dateUpdated: new Date() }) }, { new: true })
+    recipe_model_1.Recipe.findOneAndUpdate({ _id: (_a = req.recipe) === null || _a === void 0 ? void 0 : _a._id }, { $set: Object.assign(Object.assign({}, req.body), { dateUpdated: new Date(Date.now()).toLocaleString() }) }, { new: true })
         .exec((err, recipe) => {
         if (err)
             throw err;

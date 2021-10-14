@@ -11,10 +11,11 @@ import {
   useDisclosure
 } from "@chakra-ui/react"
 import React, { useEffect } from "react"
+import  { HeartOutline, Heart } from "react-ionicons/lib";
 import { RouteComponentProps, useHistory } from "react-router";
 import { useAppSelector } from "../hooks";
 import { IngInterface, RecipeInterface } from "../interfaces";
-import { fetchRecipe } from "../manage_state/action_dispatch/recipe_actions";
+import { fetchRecipe, updateRecipe } from "../manage_state/action_dispatch/recipe_actions";
 import { deleteRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
 import { BASE_COLOR } from "../styles/colors";
 import TagGrid from "./TagGrid";
@@ -30,13 +31,19 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
   const history = useHistory();
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
+  const { isOpen: isFavOpen, onOpen: onFavOpen, onClose: onFavClose } = useDisclosure();
 
   const recipe: RecipeInterface = useAppSelector(state => state.recipe);
 
   const handleDeleteClick = () => {
     deleteRecipe(recipe._id);
     history.push("/recipes?sort=name:asc")
+  }
+
+  const toggleFav = () => {
+    updateRecipe(recipe._id, {...recipe, fav: !recipe.fav})
+    onFavOpen();
   }
 
   const renderIngredients = () => {
@@ -76,6 +83,24 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
           <TagGrid recipe={recipe}/>
 
           <HStack>
+            {recipe.fav ?
+              <Heart 
+               color={BASE_COLOR}
+               cssClasses="fav-icon" 
+               height="50px"
+               width="30px"
+               title="Remove from favorites"
+               onClick={toggleFav}/>
+              :
+              <HeartOutline 
+              color={BASE_COLOR} 
+              cssClasses="fav-icon" 
+              height="50px"
+              width="30px"
+              title="Add to favorites"
+              onClick={toggleFav}/>
+            }
+
             <Button 
             size="xs"
             bg={BASE_COLOR}
@@ -89,7 +114,7 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             <Button 
             size="xs"
             colorScheme="red"
-            onClick={onOpen}
+            onClick={onDeleteOpen}
             >
               Delete
             </Button>
@@ -97,7 +122,7 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
         </VStack>            
       </Center>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Delete '{recipe.name}'?</ModalHeader>
@@ -107,7 +132,21 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             <Button colorScheme="red" mr={3} onClick={handleDeleteClick}>
               Delete
             </Button>
-            <Button variant="ghost" onClick={onClose}>Cancel</Button>
+            <Button variant="ghost" onClick={onDeleteClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isFavOpen} onClose={onFavClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>'{recipe.name}' {recipe.fav ? 'added to ' : 'removed from '} favorites</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalFooter>
+            <Button color="white" bg={BASE_COLOR} mr={3} onClick={onFavClose}>
+              Ok
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

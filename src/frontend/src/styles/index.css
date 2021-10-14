@@ -61,3 +61,7 @@ code {
   color: red;
   font-size: 50%;
 }
+
+.fav-icon:hover{
+  cursor: pointer;
+}

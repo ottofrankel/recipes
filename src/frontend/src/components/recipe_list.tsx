@@ -4,9 +4,10 @@ import { SimpleGrid, Center, VStack } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useAppSelector } from "../hooks";
 import { fetchFavs, fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
-import { RecipeInterface } from "../interfaces";
+import { QueryInterface, RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
 import { BASE_COLOR } from "../styles/colors";
+import { newFilters } from "../manage_state/action_dispatch/filter_actions";
 
 interface Props {
   favsOnly: boolean
@@ -23,8 +24,38 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
       fetchFavs();
   }, [location, favsOnly])
 
+  let currentFilters: QueryInterface = {}
+
+  const params = location.search.split("&")
+
+  for (let i = 0; i < params.length; i++) {
+    const curr = params[i].split("=");
+    console.log(curr);
+
+    const param = curr[0] ?? '';
+    const value = curr[1] ?? '';
+    
+    if (value) {
+      if (param === "name" || param === "source" || param === "type" || param === "tags" || param === "sort")
+      // if (param === "name") currentFilters.name = value;
+      // if (param === "source") currentFilters.source = value;
+      // if (param === "type") currentFilters.type = value;
+      // if (param === "fav" && value === "true") currentFilters.fav = true;
+      // if (param === "tags") currentFilters.tags = value;
+      // if (param === "sort") currentFilters.sort = value;
+      currentFilters[param] = value;
+      currentFilters.hasFilter = true;
+    }  else if (param === "fav" && value === "true") {
+      currentFilters.fav = true;
+      currentFilters.hasFilter = true;
+    }      
+  }
+
+  // newFilters(currentFilters);
+
   const recipeList = useAppSelector(state => state.recipeList);
   const favs = useAppSelector(state => state.favs);
+  // const filters = useAppSelector(state => state.filter);
 
   let recipes: RecipeInterface[] = [];
 
@@ -52,7 +83,20 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
       {!favsOnly && 
         <Center>
           <VStack>
-            <h2 className="page-title">Recipes:</h2>
+            {currentFilters.hasFilter 
+            ? 
+              <h2 className="page-title">Results for: 
+                {currentFilters.name && "|name: " + currentFilters.name}
+                {currentFilters.source && "|source: " + currentFilters.source}
+                {currentFilters.type && "|type: " + currentFilters.type}
+                {currentFilters.tags && "|tags: " + currentFilters.tags}
+                {currentFilters.fav && "|favorites: true"}
+                sort by: {currentFilters.sort}
+              </h2> 
+            : 
+              <h2 className="page-title">Recipes:</h2>
+            }
+
             <Button
               size="xs"
               variant="outline"

@@ -232,11 +232,11 @@ const RecipeForm: React.FC<Props> = ({
           {errors.instructions && <p className="validationError">{errors.instructions}</p>}
         </Box>
 
-        <Box>
+        <Box w= {400}>
           <HStack>
             <FormLabel htmlFor="recipe-tags">Tags:</FormLabel>
             <Input 
-            value={tags} 
+            value={tags}
             id={"recipe-tags"} 
             size="xs"
             onChange={e => setTags(e.target.value)}

@@ -13,6 +13,6 @@ const TagGrid = ({ recipe }) => {
             return ((0, jsx_runtime_1.jsx)(tag_1.Tag, Object.assign({ fontSize: "small", size: "sm", bg: "white", borderWidth: "1px", color: colors_1.BASE_COLOR, borderColor: colors_1.BASE_COLOR, margin: 2, overflow: "hidden", _hover: { color: "white", bg: colors_1.BASE_COLOR, cursor: "pointer" }, onClick: () => history.push("/recipes?tags=" + tag) }, { children: tag }), recipe._id + '-' + index));
         }));
     };
-    return ((0, jsx_runtime_1.jsx)(layout_1.SimpleGrid, Object.assign({ columns: 5 }, { children: renderTags() }), void 0));
+    return ((0, jsx_runtime_1.jsx)(layout_1.SimpleGrid, Object.assign({ columns: 4 }, { children: renderTags() }), void 0));
 };
 exports.default = TagGrid;

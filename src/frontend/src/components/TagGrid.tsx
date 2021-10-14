@@ -37,7 +37,7 @@ const TagGrid: React.FC<Props> = ({ recipe }) => {
   }
 
   return (
-    <SimpleGrid columns={5}>
+    <SimpleGrid columns={4}>
       {renderTags()}
     </SimpleGrid>
   )

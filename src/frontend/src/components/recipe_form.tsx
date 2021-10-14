@@ -37,7 +37,7 @@ const RecipeForm: React.FC<Props> = ({
   const [source, setSource] = useState(recipe.source);
   const [type, setType] = useState(recipe.type);
   const [instructions, setInstructions] = useState(recipe.instructions);
-  const [tags, setTags] = useState(recipe.tags?.join());
+  const [tags, setTags] = useState(recipe.tags?.join(" "));
   const [errors, setErrors] = useState(preValidation);
 
   const handleIngChange = (index: number, e: React.ChangeEvent<HTMLInputElement>, key: "amount" | "measurement" | "name") => {
@@ -70,8 +70,14 @@ const RecipeForm: React.FC<Props> = ({
         instructions: instructions,
         fav: recipe.fav
       }
+      
+      console.log(tags);
+      console.log(tags?.split(" "));
 
-      if (tags) newRecipe.tags = tags.split(",");
+      if (tags) {
+        const validTags = tags.split(" ");
+        newRecipe.tags = validTags.filter(tag => tag !== '')
+      }
       
       if (formType === "new") {
         postRecipe(newRecipe);
@@ -225,9 +231,9 @@ const RecipeForm: React.FC<Props> = ({
             size="xs"
             onChange={e => setTags(e.target.value)}
             />
-
-            <p className="tag-instructions"><em>*seperate tags by comma</em></p>
           </HStack>
+          
+          <p className="tag-instructions"><em>*seperate tags by space</em></p>
         </Box>
 
         <Button 

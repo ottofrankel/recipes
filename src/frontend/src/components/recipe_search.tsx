@@ -78,7 +78,7 @@ const RecipeSearch: React.FC = () => {
           onChange={e => setTagFilter(e.target.value)}
         >
         </Input>
-        <p className="tag-instructions"><em>*seperate tags by comma</em></p>
+        <p className="tag-instructions"><em>*seperate tags by space</em></p>
 
         <HStack>
           <Checkbox 

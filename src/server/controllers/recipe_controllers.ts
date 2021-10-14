@@ -67,7 +67,7 @@ const getRecipes = (req: Request, res: Response): void => {
   // Get recipes that have all tags passed in the search
   if (req.query.tags) {
     const tagsStr: string = req.query.tags as string;
-    const tagsArr: string[] = tagsStr.split(",");
+    const tagsArr: string[] = tagsStr.split(" ");
     query.tags = { $all: tagsArr };
   }
 

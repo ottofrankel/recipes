@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
-import { useLocation } from "react-router";
-import { SimpleGrid } from "@chakra-ui/layout";
+import { useLocation, useHistory } from "react-router";
+import { SimpleGrid, Center, VStack } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
 import { useAppSelector } from "../hooks";
 import { fetchFavs, fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
 import { RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
+import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
 
 interface Props {
   favsOnly: boolean
@@ -12,6 +14,7 @@ interface Props {
 
 const RecipeList: React.FC<Props> = ({ favsOnly }) => {
   const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     if (!favsOnly)
@@ -46,6 +49,22 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
 
   return(
     <div>
+      <Center>
+        <VStack>
+          <h2 className="page-title">Recipes:</h2>
+          <Button
+            size="xs"
+            variant="outline"
+            color={BASE_COLOR}
+            borderColor={BASE_COLOR}
+            _hover={{bg: BASE_COLOR, color: "white"}}
+            onClick={() => history.push("/search-recipes")}
+          >
+            Apply Filters
+          </Button>
+        </VStack>
+      </Center>
+
       <SimpleGrid columns={[1, 3, 4]} spacing={10} m={3}>
         {renderRecipes()}
       </SimpleGrid>

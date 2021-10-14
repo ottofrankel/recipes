@@ -7,7 +7,7 @@ import { Select } from "@chakra-ui/select";
 import { Textarea } from "@chakra-ui/textarea";
 import { Button } from "@chakra-ui/button";
 import { useHistory } from "react-router-dom";
-import { BASE_COLOR } from "../styles/colors";
+import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
 import { postRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
 import { updateRecipe } from "../manage_state/action_dispatch/recipe_actions";
 import checkErrors from "./validation";
@@ -118,8 +118,13 @@ const RecipeForm: React.FC<Props> = ({
         {/* TODO: Improve select */}
         <Box>
           <HStack>
-          <FormLabel htmlFor="recipe-type" placeholder="select type">Type:</FormLabel>
-            <Select id={"recipe-type"} placeholder="select type" size="xs" onChange={e => setType(e.target.value)}>
+            <FormLabel htmlFor="recipe-type" placeholder="select type">Type:</FormLabel>
+            <Select 
+              id={"recipe-type"} 
+              placeholder="select type"
+              size="xs" 
+              onChange={e => setType(e.target.value)}
+             >
               <option value="breakfast">Breakfast</option>    
               <option value="lunch">Lunch</option>    
               <option value="dinner">Dinner</option>    
@@ -229,7 +234,7 @@ const RecipeForm: React.FC<Props> = ({
         type="submit"
         bg={BASE_COLOR}
         color="white"
-        _hover={{bg: "#1dbb9b"}}
+        _hover={{bg: BUTTON_HOVER_COLOR}}
         onClick={handleSubmit}
         >
           {formType === "new" ? "Add Recipe" : "Update Recipe" }

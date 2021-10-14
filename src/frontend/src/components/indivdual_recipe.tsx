@@ -17,7 +17,7 @@ import { useAppSelector } from "../hooks";
 import { IngInterface, RecipeInterface } from "../interfaces";
 import { fetchRecipe, updateRecipe } from "../manage_state/action_dispatch/recipe_actions";
 import { deleteRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
-import { BASE_COLOR } from "../styles/colors";
+import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
 import TagGrid from "./TagGrid";
 
 interface MatchParams {
@@ -105,7 +105,7 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             size="xs"
             bg={BASE_COLOR}
             color="white"
-            _hover={{bg: "#1dbb9b"}}
+            _hover={{bg: BUTTON_HOVER_COLOR}}
             onClick={() => history.push("/update-recipe/" + recipe._id)}
             >
               Update Recipe

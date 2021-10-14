@@ -14,13 +14,6 @@ const UpdateRecipeForm = (props) => {
         (0, recipe_actions_1.fetchRecipe)(props.match.params.id);
     }, [props.match.params.id]);
     const recipe = (0, hooks_1.useAppSelector)(state => state.recipe);
-    const ings = recipe.ingredients.map(ing => {
-        return {
-            amount: ing.amount,
-            measurement: ing.measurement,
-            name: ing.name
-        };
-    });
     return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(layout_1.Center, { children: (0, jsx_runtime_1.jsx)("h2", Object.assign({ className: "page-title" }, { children: "Update Recipe:" }), void 0) }, void 0), (0, jsx_runtime_1.jsx)(recipe_form_1.default, { recipe: recipe, formType: "update" }, void 0)] }, void 0));
 };
 exports.default = UpdateRecipeForm;

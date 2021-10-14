@@ -24,7 +24,15 @@ const RecipeForm: React.FC<Props> = ({
   const history = useHistory();
   const preValidation: ValidationErrors = {};
 
-  const [ingValues, setIngValues] = useState(recipe.ingredients);
+  const ings = recipe.ingredients.map(ing => {
+    return {
+      amount: ing.amount,
+      measurement: ing.measurement,
+      name: ing.name
+    }
+  })
+
+  const [ingValues, setIngValues] = useState(ings);
   const [name, setName] = useState(recipe.name);
   const [source, setSource] = useState(recipe.source);
   const [type, setType] = useState(recipe.type);

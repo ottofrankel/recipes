@@ -20,7 +20,14 @@ const RecipeForm = ({ recipe, formType }) => {
     var _a;
     const history = (0, react_router_dom_1.useHistory)();
     const preValidation = {};
-    const [ingValues, setIngValues] = (0, react_1.useState)(recipe.ingredients);
+    const ings = recipe.ingredients.map(ing => {
+        return {
+            amount: ing.amount,
+            measurement: ing.measurement,
+            name: ing.name
+        };
+    });
+    const [ingValues, setIngValues] = (0, react_1.useState)(ings);
     const [name, setName] = (0, react_1.useState)(recipe.name);
     const [source, setSource] = (0, react_1.useState)(recipe.source);
     const [type, setType] = (0, react_1.useState)(recipe.type);

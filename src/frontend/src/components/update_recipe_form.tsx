@@ -16,14 +16,6 @@ const UpdateRecipeForm: React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
   const recipe = useAppSelector(state => state.recipe);
 
-  const ings = recipe.ingredients.map(ing => {
-    return {
-      amount: ing.amount,
-      measurement: ing.measurement,
-      name: ing.name
-    }
-  })
-
   return (
     <div>
       <Center>

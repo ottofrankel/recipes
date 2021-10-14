@@ -6,6 +6,15 @@ import { Center, VStack, Box, HStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Textarea } from "@chakra-ui/textarea";
 import { Button } from "@chakra-ui/button";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalCloseButton,
+  useDisclosure
+} from "@chakra-ui/react"
 import { useHistory } from "react-router-dom";
 import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
 import { postRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
@@ -23,6 +32,9 @@ const RecipeForm: React.FC<Props> = ({
 }) => {
   const history = useHistory();
   const preValidation: ValidationErrors = {};
+
+  const {isOpen: isBackOpen, onOpen: onBackOpen, onClose: onBackClose} = useDisclosure();
+  const {isOpen: isUpdateOpen, onOpen: onUpdateOpen, onClose: onUpdateClose} = useDisclosure();
 
   const ings = recipe.ingredients.map(ing => {
     return {
@@ -70,9 +82,6 @@ const RecipeForm: React.FC<Props> = ({
         instructions: instructions,
         fav: recipe.fav
       }
-      
-      console.log(tags);
-      console.log(tags?.split(" "));
 
       if (tags) {
         const validTags = tags.split(" ");
@@ -242,7 +251,7 @@ const RecipeForm: React.FC<Props> = ({
         bg={BASE_COLOR}
         color="white"
         _hover={{bg: BUTTON_HOVER_COLOR}}
-        onClick={handleSubmit}
+        onClick={formType === "new" ? handleSubmit : onUpdateOpen}
         >
           {formType === "new" ? "Add Recipe" : "Update Recipe" }
         </Button>
@@ -254,13 +263,56 @@ const RecipeForm: React.FC<Props> = ({
           borderColor={BASE_COLOR}
           size="xs"
           _hover={{bg: BASE_COLOR, color: "white"}}
-          onClick={() => history.push("/recipes/" + recipe._id)}
+          onClick={onBackOpen}
           >
             Back
           </Button>
-        }
-        
+        }   
       </VStack>
+
+      <Modal isOpen={isUpdateOpen} onClose={onUpdateClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Save changes to recipe?</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalFooter>
+            <Button 
+              color="white" 
+              bg={BASE_COLOR} 
+              mr={3}
+              _hover={{bg: BUTTON_HOVER_COLOR}}
+              onClick={handleSubmit}
+            >
+              Yes
+            </Button>
+
+            <Button variant="ghost" onClick={onUpdateClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isBackOpen} onClose={onBackClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Go back without saving updates?</ModalHeader>
+          <ModalCloseButton />
+
+          <ModalFooter>
+            <Button 
+              color="white" 
+              bg={BASE_COLOR} 
+              mr={3}
+              _hover={{bg: BUTTON_HOVER_COLOR}}
+              onClick={() => history.push("/recipes/" + recipe._id)}
+            >
+              Yes
+            </Button>
+
+            <Button variant="ghost" onClick={onBackClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Center>
   )
 }

@@ -26,7 +26,6 @@ exports.fetchFavs = fetchFavs;
 const postRecipe = (recipe) => {
     axios_1.default.post(`${constants_1.BASE_API_URL}/recipes`, recipe)
         .then(res => {
-        console.log(res.data);
         store_1.store.dispatch((0, recipeListSlice_1.newRecipe)(res.data));
     });
 };

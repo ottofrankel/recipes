@@ -134,7 +134,10 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
           <ModalCloseButton />
 
           <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={handleDeleteClick}>
+            <Button 
+              colorScheme="red" 
+              mr={3} 
+              onClick={handleDeleteClick}>
               Delete
             </Button>
             <Button variant="ghost" onClick={onDeleteClose}>Cancel</Button>
@@ -149,7 +152,13 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
           <ModalCloseButton />
 
           <ModalFooter>
-            <Button color="white" bg={BASE_COLOR} mr={3} onClick={onFavClose}>
+            <Button 
+              color="white"
+              bg={BASE_COLOR}
+              mr={3}
+              _hover={{bg: BUTTON_HOVER_COLOR}}
+              onClick={onFavClose}
+            >
               Ok
             </Button>
           </ModalFooter>

@@ -62,13 +62,13 @@ const RecipeSearch: React.FC = () => {
           size="xs"
           onChange={e => setTypeFilter(e.target.value)}
         >
-          <option value="breakfast">Breakfast</option>    
-          <option value="lunch">Lunch</option>    
-          <option value="dinner">Dinner</option>    
-          <option value="side">Side Dish/Appetizer</option>    
-          <option value="dessert">Dessert</option>
-          <option value="dessert">Drink</option>   
-          <option value="other">Snack</option>
+          <option value="Breakfast">Breakfast</option>    
+          <option value="Lunch">Lunch</option>    
+          <option value="Dinner">Dinner</option>    
+          <option value="Side">Side Dish/Appetizer</option>    
+          <option value="Dessert">Dessert</option>
+          <option value="Drink">Drink</option>   
+          <option value="Snack">Snack</option>
         </Select>
 
         <FormLabel htmlFor="filter-tags">Tags:</FormLabel>

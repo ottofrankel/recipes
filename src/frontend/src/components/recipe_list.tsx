@@ -49,22 +49,24 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
 
   return(
     <div>
-      <Center>
-        <VStack>
-          { !favsOnly && <h2 className="page-title">Recipes:</h2>}
-          <Button
-            size="xs"
-            variant="outline"
-            color={BASE_COLOR}
-            borderColor={BASE_COLOR}
-            _hover={{bg: BASE_COLOR, color: "white"}}
-            onClick={() => history.push("/search-recipes")}
-          >
-            Apply Filters
-          </Button>
-        </VStack>
-      </Center>
-
+      {!favsOnly && 
+        <Center>
+          <VStack>
+            <h2 className="page-title">Recipes:</h2>
+            <Button
+              size="xs"
+              variant="outline"
+              color={BASE_COLOR}
+              borderColor={BASE_COLOR}
+              _hover={{bg: BASE_COLOR, color: "white"}}
+              onClick={() => history.push("/search-recipes")}
+            >
+              Apply Filters
+            </Button>
+          </VStack>
+        </Center>
+      }
+      
       <SimpleGrid columns={[1, 3, 4]} spacing={10} m={3}>
         {renderRecipes()}
       </SimpleGrid>

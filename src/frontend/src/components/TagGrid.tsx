@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { SimpleGrid } from "@chakra-ui/layout";
 import { Tag } from "@chakra-ui/tag";
 import { RecipeInterface } from "../interfaces";
@@ -9,6 +10,8 @@ interface Props {
 }
 
 const TagGrid: React.FC<Props> = ({ recipe }) => {
+  const history = useHistory();
+
   const renderTags = () => {
     return (
       recipe.tags?.map((tag: string, index) => {
@@ -23,7 +26,8 @@ const TagGrid: React.FC<Props> = ({ recipe }) => {
           key={recipe._id + '-' + index}
           margin={2}
           overflow="hidden"
-          _hover={{ color: "white", bg: BASE_COLOR}}
+          _hover={{ color: "white", bg: BASE_COLOR, cursor: "pointer"}}
+          onClick={() => history.push("/recipes?tags=" + tag)}
           >
             {tag}
           </Tag>

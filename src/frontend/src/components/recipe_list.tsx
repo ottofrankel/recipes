@@ -6,7 +6,7 @@ import { useAppSelector } from "../hooks";
 import { fetchFavs, fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
 import { RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
-import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
+import { BASE_COLOR } from "../styles/colors";
 
 interface Props {
   favsOnly: boolean

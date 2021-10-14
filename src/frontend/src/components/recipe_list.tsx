@@ -51,7 +51,7 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
     <div>
       <Center>
         <VStack>
-          <h2 className="page-title">Recipes:</h2>
+          { !favsOnly && <h2 className="page-title">Recipes:</h2>}
           <Button
             size="xs"
             variant="outline"

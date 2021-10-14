@@ -22,6 +22,7 @@ export const fetchFavs = (): void => {
 export const postRecipe = (recipe: RecipeInterface): void => {
   axios.post(`${BASE_API_URL}/recipes`, recipe)
   .then(res => {
+    console.log(res.data);
     store.dispatch(newRecipe(res.data));
   })
 }

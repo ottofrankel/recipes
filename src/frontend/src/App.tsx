@@ -1,5 +1,5 @@
 import { Switch, Route } from 'react-router-dom';
-import AddRecipeForm from './components/add_recipe_form';
+import AddRecipeForm from './components/add_recipe';
 import Homescreen from './components/homescreen';
 import IndividualRecipe from './components/indivdual_recipe';
 import Navbar from './components/navbar';

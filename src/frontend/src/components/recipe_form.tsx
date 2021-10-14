@@ -1,44 +1,35 @@
-import { Button } from "@chakra-ui/button";
+import React, { useState } from "react";
+import { RecipeInterface, ValidationErrors } from "../interfaces";
 import { FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Center, VStack, Box, HStack } from "@chakra-ui/layout";
 import { Select } from "@chakra-ui/select";
 import { Textarea } from "@chakra-ui/textarea";
-import React, { useState} from "react";
-import { useHistory } from "react-router";
-import { IngInterface, RecipeInterface } from "../interfaces";
+import { Button } from "@chakra-ui/button";
+import { useHistory } from "react-router-dom";
 import { BASE_COLOR } from "../styles/colors";
 import { postRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
+import { updateRecipe } from "../manage_state/action_dispatch/recipe_actions";
+import checkErrors from "./validation";
 
-const AddRecipeForm: React.FC = () => {
+interface Props {
+  formType: "new" | "update";
+  recipe: RecipeInterface
+}
+
+const RecipeForm: React.FC<Props> = ({
+  recipe,
+  formType
+}) => {
   const history = useHistory();
+  const preValidation: ValidationErrors = {};
 
-  let initialIngs: IngInterface[] = [];
-
-  for (let i = 0; i < 6; i++) {
-    const ingInput: IngInterface = {
-      name: "",
-      measurement: "",
-      amount: ""
-    }
-    initialIngs.push(ingInput);
-  }
-
-  interface Errors {
-    name?: string,
-    type?: string,
-    ingredients?: string,
-    instructions?: string
-  }
-
-  const preValidation: Errors = {};
-
-  const [ingValues, setIngValues] = useState(initialIngs);
-  const [name, setName] = useState('');
-  const [source, setSource] = useState('');
-  const [type, setType] = useState('');
-  const [instructions, setInstructions] = useState('');
-  const [tags, setTags] = useState('');
+  const [ingValues, setIngValues] = useState(recipe.ingredients);
+  const [name, setName] = useState(recipe.name);
+  const [source, setSource] = useState(recipe.source);
+  const [type, setType] = useState(recipe.type);
+  const [instructions, setInstructions] = useState(recipe.instructions);
+  const [tags, setTags] = useState(recipe.tags?.join());
   const [errors, setErrors] = useState(preValidation);
 
   const handleIngChange = (index: number, e: React.ChangeEvent<HTMLInputElement>, key: "amount" | "measurement" | "name") => {
@@ -57,47 +48,10 @@ const AddRecipeForm: React.FC = () => {
     setIngValues(newIngValues);
   }
 
-  const checkErrors = () => {
-    let hasError: boolean = false;
-    let validationErrors: Errors = {};
+  const handleSubmit = () => {
+    const errors = checkErrors(name, type, instructions, ingValues);
 
-    const ingredients = ingValues.filter(ing => ing.amount && ing.name);
-
-    if (ingredients.length === 0) {
-      validationErrors.ingredients = "Recipe must have at least one ingredient"
-      hasError = true;
-    } else {
-      for (let i = 0; i < ingValues.length; i++) {
-        const curr = ingValues[i];
-  
-        if (curr.name || curr.amount || curr.measurement) {
-          if (!curr.name || !curr.amount) {
-            validationErrors.ingredients = "Each ingredient must have name and amount"
-            hasError = true;
-          }     
-        }
-      }
-    }
-
-    if (!name) {
-      validationErrors.name = "Required"
-      hasError = true;
-    }
-    if (!type) {
-      validationErrors.type = "Required"
-      hasError = true;
-    }
-    if (!instructions) {
-      validationErrors.instructions = "Required"
-      hasError = true;
-    }
-
-    setErrors(validationErrors);
-    return hasError;
-  }
-
-  const newRecipeSubmit = () => {
-    if (!checkErrors()) {
+    if (!errors.error) {
       const ingredients = ingValues.filter(ing => ing.amount && ing.name);
 
       let newRecipe: RecipeInterface = {
@@ -106,21 +60,27 @@ const AddRecipeForm: React.FC = () => {
         type: type,
         ingredients: ingredients,
         instructions: instructions,
-        fav: false
+        fav: recipe.fav
       }
 
       if (tags) newRecipe.tags = tags.split(",");
-
-      postRecipe(newRecipe);
-      history.push("/recipes?sort=name:asc")
-    }  
+      
+      if (formType === "new") {
+        postRecipe(newRecipe);
+        history.push("/recipes?sort=name:asc")  
+      } else {
+        updateRecipe(recipe._id, newRecipe);
+        history.push("/recipes/" + recipe._id);
+      }      
+      
+    } else {
+      setErrors(errors.validationErrors);
+    }
   }
 
   return (
     <Center>
       <VStack>
-        <h2 className="page-title">Add Recipe:</h2>
-
         <Box>
           <HStack>
             <FormLabel htmlFor="recipe-name">Name:</FormLabel>
@@ -168,7 +128,7 @@ const AddRecipeForm: React.FC = () => {
           <FormLabel>Ingredients:</FormLabel>
           {ingValues.map((element, index) => {
             return (
-              <HStack>
+              <HStack key={"ing-" + index}>
                 <Input 
                  value={element.amount}
                  key={"amount" + index} 
@@ -262,13 +222,27 @@ const AddRecipeForm: React.FC = () => {
         bg={BASE_COLOR}
         color="white"
         _hover={{bg: "#1dbb9b"}}
-        onClick={newRecipeSubmit}
+        onClick={handleSubmit}
         >
-          Add Recipe
+          {formType === "new" ? "Add Recipe" : "Update Recipe" }
         </Button>
+        
+        { formType === "update" &&
+          <Button 
+          variant="outline"
+          color={BASE_COLOR}
+          borderColor={BASE_COLOR}
+          size="xs"
+          _hover={{bg: BASE_COLOR, color: "white"}}
+          onClick={() => history.push("/recipes/" + recipe._id)}
+          >
+            Back
+          </Button>
+        }
+        
       </VStack>
     </Center>
   )
 }
 
-export default AddRecipeForm;
+export default RecipeForm;

@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
       <Grid bg={BASE_COLOR} templateColumns="repeat(5, 1fr)" h={14}>
         <GridItem colSpan={2} ml="10">
           <Heading color="white">
-            <Link to="/">What's Cooking?</Link>
+            <Link to="/" className="site-title">What's Cooking?</Link>
           </Heading>
         </GridItem>
 

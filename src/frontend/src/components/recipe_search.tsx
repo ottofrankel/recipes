@@ -16,6 +16,7 @@ const RecipeSearch: React.FC = () => {
   const [typeFilter, setTypeFilter] = useState('');
   const [favFilter, setFavFilter] = useState(false);
   const [tagFilter, setTagFilter] = useState('');
+  const [sort, setSort] = useState('');
 
   const handleSearchClick = () => {
     let queryString: string = "?"
@@ -25,6 +26,7 @@ const RecipeSearch: React.FC = () => {
     if (typeFilter) queryString += "&type=" + typeFilter;
     if (favFilter) queryString += "&fav=true";
     if (tagFilter) queryString += "&tags=" + tagFilter;
+    if (sort) queryString += "&sort=" + sort;
 
     history.push('/recipes' + queryString);
   }
@@ -79,6 +81,22 @@ const RecipeSearch: React.FC = () => {
         >
         </Input>
         <p className="tag-instructions"><em>*seperate tags by space</em></p>
+
+        <FormLabel htmlFor="sort">Type:</FormLabel>
+        <Select 
+          id={"sort"}
+          placeholder="sort by..."
+          value={sort}
+          size="xs"
+          onChange={e => setSort(e.target.value)}
+        >
+          <option value="name:asc">Name ascending</option>    
+          <option value="name:desc">Name descending</option>    
+          <option value="dateAdded:asc">Date added ascending</option>    
+          <option value="dateAdded:desc">Date added descending</option>    
+          <option value="dateUpdated:asc">Last updated ascending</option>
+          <option value="dateUpdated:desc">Last updated descending</option>
+        </Select>
 
         <HStack>
           <Checkbox 

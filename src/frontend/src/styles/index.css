@@ -46,6 +46,10 @@ code {
   color: #b0eade;
 }
 
+.site-title {
+  font-weight: 300;
+}
+
 .page-title {
   color: #16a085;
   font-weight: 300;

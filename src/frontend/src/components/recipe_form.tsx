@@ -19,7 +19,7 @@ import { useHistory } from "react-router-dom";
 import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
 import { postRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
 import { updateRecipe } from "../manage_state/action_dispatch/recipe_actions";
-import checkErrors from "./validation";
+import { checkErrors } from "./validation";
 
 interface Props {
   formType: "new" | "update";

@@ -1,6 +1,6 @@
 import { IngInterface, ValidationErrors } from "../interfaces";
 
-const checkErrors = (name: string, type: string, instructions: string, ingredients: IngInterface[]) => {
+export const checkErrors = (name: string, type: string, instructions: string, ingredients: IngInterface[]) => {
   let hasError: boolean = false;
   let validationErrors: ValidationErrors = {};
 
@@ -41,4 +41,7 @@ const checkErrors = (name: string, type: string, instructions: string, ingredien
   }
 }
 
-export default checkErrors;
+export const validateEmail = (email: string): boolean => {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  return re.test(email.toLowerCase());
+}

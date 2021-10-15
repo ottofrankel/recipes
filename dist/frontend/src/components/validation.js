@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateEmail = exports.checkErrors = void 0;
 const checkErrors = (name, type, instructions, ingredients) => {
     let hasError = false;
     let validationErrors = {};
@@ -36,4 +37,9 @@ const checkErrors = (name, type, instructions, ingredients) => {
         validationErrors: validationErrors
     };
 };
-exports.default = checkErrors;
+exports.checkErrors = checkErrors;
+const validateEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email.toLowerCase());
+};
+exports.validateEmail = validateEmail;

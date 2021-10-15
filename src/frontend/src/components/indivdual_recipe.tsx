@@ -1,5 +1,5 @@
 import { Button } from "@chakra-ui/button";
-import { Center, HStack, VStack, Container } from "@chakra-ui/layout";
+import { Center, HStack, VStack, Container, Box } from "@chakra-ui/layout";
 import { List, ListItem } from "@chakra-ui/layout";
 import {
   Modal,
@@ -10,8 +10,11 @@ import {
   ModalCloseButton,
   useDisclosure
 } from "@chakra-ui/react"
+import { Input } from "@chakra-ui/input";
+import { FormLabel } from "@chakra-ui/form-control";
+import { Textarea } from "@chakra-ui/textarea";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import  { HeartOutline, Heart } from "react-ionicons/lib";
 import { RouteComponentProps, useHistory } from "react-router";
 import { useAppSelector } from "../hooks";
@@ -21,6 +24,8 @@ import { deleteRecipe } from "../manage_state/action_dispatch/recipe_list_action
 import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
 import RecipePDF from "./recipe_pdf";
 import TagGrid from "./TagGrid";
+import generateEmailBody from "./generate-email-body";
+import { validateEmail } from "./validation";
 
 interface MatchParams {
   id: string;
@@ -35,6 +40,11 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
   const { isOpen: isFavOpen, onOpen: onFavOpen, onClose: onFavClose } = useDisclosure();
+  const { isOpen: isEmailOpen, onOpen: onEmailOpen, onClose: onEmailClose } = useDisclosure();
+
+  const [emailTo, setEmailTo] = useState('');
+  const [emailMessage, setEmailMessage] = useState('');
+  const [emailError, setEmailError] = useState('');
 
   const recipe: RecipeInterface = useAppSelector(state => state.recipe);
 
@@ -46,6 +56,12 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
   const toggleFav = () => {
     updateRecipe(recipe._id, {...recipe, fav: !recipe.fav})
     onFavOpen();
+  }
+
+  const closeEmailModal = () => {
+    setEmailTo('');
+    setEmailMessage('');
+    onEmailClose();
   }
 
   const renderIngredients = () => {
@@ -126,31 +142,43 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
               Delete
             </Button>   
           </HStack>
-        
-          <PDFDownloadLink
-              document={
-                <RecipePDF 
-                  name={recipe.name}
-                  source={recipe.source}
-                  type={recipe.type}
-                  ingredients={recipe.ingredients}
-                  instructions={recipe.instructions}
-                  fav={recipe.fav}
-                />
-              }
-              fileName={`${recipe.name}-recipe.pdf`}
+
+          <HStack>
+            <Button
+              size="xs"
+              bg={BASE_COLOR}
+              color="white"
+              _hover={{bg: BUTTON_HOVER_COLOR}}
+              onClick={onEmailOpen}
             >
-              {({ blob, url, loading, error }) =>
-              <Button
-                size="xs"
-                color="white"
-                bg={BASE_COLOR}
-                _hover={{bg: BUTTON_HOVER_COLOR}}
+              Email recipe
+            </Button>
+
+            <PDFDownloadLink
+                document={
+                  <RecipePDF 
+                    name={recipe.name}
+                    source={recipe.source}
+                    type={recipe.type}
+                    ingredients={recipe.ingredients}
+                    instructions={recipe.instructions}
+                    fav={recipe.fav}
+                  />
+                }
+                fileName={`${recipe.name}-recipe.pdf`}
               >
-                {loading ? "Loading document..." : "Download Pdf"}
-              </Button>             
-              }
-            </PDFDownloadLink>
+                {({ blob, url, loading, error }) =>
+                <Button
+                  size="xs"
+                  color="white"
+                  bg={BASE_COLOR}
+                  _hover={{bg: BUTTON_HOVER_COLOR}}
+                >
+                  {loading ? "Loading document..." : "Download PDF"}
+                </Button>             
+                }
+              </PDFDownloadLink>
+          </HStack>
         </VStack>            
       </Center>
 
@@ -189,6 +217,58 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             >
               Ok
             </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isEmailOpen} onClose={closeEmailModal}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Send '{recipe.name}' in an email:</ModalHeader>
+          <ModalCloseButton />
+          
+          <Box mr={3} ml={3}>
+            <FormLabel htmlFor="email-to">Send to:</FormLabel>
+            <Input
+              value={emailTo}
+              id={"email-to"}
+              type="email"
+              onChange={e => setEmailTo(e.target.value)}
+            />
+          </Box>
+          
+          <Box mr={3} ml={3}>
+            <FormLabel htmlFor="email-message">Include a message (optional):</FormLabel>
+            <Textarea
+              value={emailMessage}
+              id={"email-message"}
+              fontSize={14}
+              onChange={e => setEmailMessage(e.target.value)}
+            />
+          </Box>
+
+          <ModalFooter>
+            {validateEmail(emailTo) ?
+              <Button
+                mr={3}
+                color="white"
+                bg={BASE_COLOR}
+                _hover={{bg: BUTTON_HOVER_COLOR
+                }}
+              >
+                <a
+                className="email-link"
+                href={`mailto:${emailTo}?subject=${recipe.name} recipe&body=${generateEmailBody(recipe, emailMessage)}`}
+                onClick={closeEmailModal}
+                >
+                  Generate email
+                </a>
+              </Button>
+              :
+              <p>Please enter a valid email.</p>
+            }
+            
+            <Button variant="ghost" onClick={closeEmailModal}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

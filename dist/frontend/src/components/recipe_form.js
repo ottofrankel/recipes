@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
@@ -16,7 +13,7 @@ const react_router_dom_1 = require("react-router-dom");
 const colors_1 = require("../styles/colors");
 const recipe_list_actions_1 = require("../manage_state/action_dispatch/recipe_list_actions");
 const recipe_actions_1 = require("../manage_state/action_dispatch/recipe_actions");
-const validation_1 = __importDefault(require("./validation"));
+const validation_1 = require("./validation");
 const RecipeForm = ({ recipe, formType }) => {
     var _a;
     const history = (0, react_router_dom_1.useHistory)();
@@ -51,7 +48,7 @@ const RecipeForm = ({ recipe, formType }) => {
         setIngValues(newIngValues);
     };
     const handleSubmit = () => {
-        const errors = (0, validation_1.default)(name, type, instructions, ingValues);
+        const errors = (0, validation_1.checkErrors)(name, type, instructions, ingValues);
         if (!errors.error) {
             const ingredients = ingValues.filter(ing => ing.amount && ing.name);
             let newRecipe = {

@@ -7,7 +7,6 @@ import { fetchFavs, fetchRecipes } from "../manage_state/action_dispatch/recipe_
 import { QueryInterface, RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
 import { BASE_COLOR } from "../styles/colors";
-import { newFilters } from "../manage_state/action_dispatch/filter_actions";
 
 interface Props {
   favsOnly: boolean
@@ -30,32 +29,44 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
 
   for (let i = 0; i < params.length; i++) {
     const curr = params[i].split("=");
-    console.log(curr);
 
-    const param = curr[0] ?? '';
+    let param: string;
+
+    if (curr[0][0] === "?") param = curr[0].substring(1);
+    else param = curr[0] ?? ''
+
     const value = curr[1] ?? '';
     
     if (value) {
-      if (param === "name" || param === "source" || param === "type" || param === "tags" || param === "sort")
-      // if (param === "name") currentFilters.name = value;
-      // if (param === "source") currentFilters.source = value;
-      // if (param === "type") currentFilters.type = value;
-      // if (param === "fav" && value === "true") currentFilters.fav = true;
-      // if (param === "tags") currentFilters.tags = value;
-      // if (param === "sort") currentFilters.sort = value;
-      currentFilters[param] = value;
-      currentFilters.hasFilter = true;
-    }  else if (param === "fav" && value === "true") {
-      currentFilters.fav = true;
-      currentFilters.hasFilter = true;
-    }      
+      if (param === "name") {
+        currentFilters.name = value;
+        currentFilters.hasFilter = true;
+      }
+      if (param === "source") {
+        currentFilters.source = value;
+        currentFilters.hasFilter = true;
+      }
+      if (param === "type") {
+        currentFilters.type = value;
+        currentFilters.hasFilter = true;
+      }
+      if (param === "fav" && value === "true") {
+        currentFilters.fav = true;
+        currentFilters.hasFilter = true;
+      }
+      if (param === "tags") {
+        currentFilters.tags = value;
+        currentFilters.hasFilter = true;
+      }
+      if (param === "sort") {
+        currentFilters.sort = value;
+        currentFilters.hasFilter = true;
+      }
+    }
   }
-
-  // newFilters(currentFilters);
 
   const recipeList = useAppSelector(state => state.recipeList);
   const favs = useAppSelector(state => state.favs);
-  // const filters = useAppSelector(state => state.filter);
 
   let recipes: RecipeInterface[] = [];
 
@@ -83,18 +94,16 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
       {!favsOnly && 
         <Center>
           <VStack>
-            {currentFilters.hasFilter 
-            ? 
-              <h2 className="page-title">Results for: 
-                {currentFilters.name && "|name: " + currentFilters.name}
-                {currentFilters.source && "|source: " + currentFilters.source}
-                {currentFilters.type && "|type: " + currentFilters.type}
-                {currentFilters.tags && "|tags: " + currentFilters.tags}
-                {currentFilters.fav && "|favorites: true"}
-                sort by: {currentFilters.sort}
-              </h2> 
-            : 
-              <h2 className="page-title">Recipes:</h2>
+            <h2 className="page-title">Recipes:</h2>
+
+            {currentFilters.hasFilter &&
+            <p>
+              <strong>{currentFilters.name && "name: "}</strong> {currentFilters.name ?? ""}
+              <strong>{currentFilters.source && " source: "}</strong> {currentFilters.source ?? ""}
+              <strong>{currentFilters.type && " type: "} </strong> {currentFilters.type ?? ""}
+              <strong>{currentFilters.tags && " tags: "} </strong> {currentFilters.tags ?? ""}
+              <strong>{currentFilters.fav && " favorites"}</strong>
+            </p>
             }
 
             <Button

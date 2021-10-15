@@ -12,6 +12,6 @@ exports.store = (0, toolkit_1.configureStore)({
     reducer: {
         recipe: recipeSlice_1.default,
         recipeList: recipeListSlice_1.default,
-        favs: favsSlice_1.default
+        favs: favsSlice_1.default,
     }
 });

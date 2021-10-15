@@ -7,6 +7,7 @@ import { fetchFavs, fetchRecipes } from "../manage_state/action_dispatch/recipe_
 import { RecipeInterface } from "../interfaces";
 import RecipeListItem from "./recipe_list_item";
 import { BASE_COLOR } from "../styles/colors";
+import getFilters from "./get_filters";
 
 interface Props {
   favsOnly: boolean
@@ -22,6 +23,8 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
     else
       fetchFavs();
   }, [location, favsOnly])
+
+ const currentFilters = getFilters(location.search);
 
   const recipeList = useAppSelector(state => state.recipeList);
   const favs = useAppSelector(state => state.favs);
@@ -53,13 +56,24 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
         <Center>
           <VStack>
             <h2 className="page-title">Recipes:</h2>
+
+            {currentFilters.hasFilter &&
+            <p>
+              <strong>{currentFilters.name && "name: "}</strong> {currentFilters.name ?? ""}
+              <strong>{currentFilters.source && " source: "}</strong> {currentFilters.source ?? ""}
+              <strong>{currentFilters.type && " type: "} </strong> {currentFilters.type ?? ""}
+              <strong>{currentFilters.tags && " tags: "} </strong> {currentFilters.tags ?? ""}
+              <strong>{currentFilters.fav && " favorites"}</strong>
+            </p>
+            }
+
             <Button
               size="xs"
               variant="outline"
               color={BASE_COLOR}
               borderColor={BASE_COLOR}
               _hover={{bg: BASE_COLOR, color: "white"}}
-              onClick={() => history.push("/search-recipes")}
+              onClick={() => history.push("/search-recipes" + location.search)}
             >
               Apply Filters
             </Button>

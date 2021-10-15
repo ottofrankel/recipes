@@ -19,6 +19,7 @@ export interface RecipeInterface {
 }
 
 export interface QueryInterface {
+  hasFilter?: boolean;
   name?: string;
   source?: string;
   type?: string;

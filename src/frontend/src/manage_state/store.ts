@@ -7,7 +7,7 @@ export const store = configureStore({
   reducer: {
     recipe: recipeReducer,
     recipeList: recipeListReducer,
-    favs: favsReducer
+    favs: favsReducer,
   }
 })
 

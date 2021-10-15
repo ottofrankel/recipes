@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsx_runtime_1 = require("react/jsx-runtime");
 const react_1 = require("react");
@@ -10,14 +13,18 @@ const button_1 = require("@chakra-ui/button");
 const select_1 = require("@chakra-ui/select");
 const colors_1 = require("../styles/colors");
 const checkbox_1 = require("@chakra-ui/checkbox");
+const get_filters_1 = __importDefault(require("./get_filters"));
 const RecipeSearch = () => {
+    var _a, _b, _c, _d, _e, _f;
     const history = (0, react_router_1.useHistory)();
-    const [nameFilter, setNameFilter] = (0, react_1.useState)('');
-    const [sourceFilter, setSourceFilter] = (0, react_1.useState)('');
-    const [typeFilter, setTypeFilter] = (0, react_1.useState)('');
-    const [favFilter, setFavFilter] = (0, react_1.useState)(false);
-    const [tagFilter, setTagFilter] = (0, react_1.useState)('');
-    const [sort, setSort] = (0, react_1.useState)('');
+    const location = (0, react_router_1.useLocation)();
+    const currentFilters = (0, get_filters_1.default)(location.search);
+    const [nameFilter, setNameFilter] = (0, react_1.useState)((_a = currentFilters.name) !== null && _a !== void 0 ? _a : '');
+    const [sourceFilter, setSourceFilter] = (0, react_1.useState)((_b = currentFilters.source) !== null && _b !== void 0 ? _b : '');
+    const [typeFilter, setTypeFilter] = (0, react_1.useState)((_c = currentFilters.type) !== null && _c !== void 0 ? _c : '');
+    const [favFilter, setFavFilter] = (0, react_1.useState)((_d = currentFilters.fav) !== null && _d !== void 0 ? _d : false);
+    const [tagFilter, setTagFilter] = (0, react_1.useState)((_e = currentFilters.tags) !== null && _e !== void 0 ? _e : '');
+    const [sort, setSort] = (0, react_1.useState)((_f = currentFilters.sort) !== null && _f !== void 0 ? _f : '');
     const handleSearchClick = () => {
         let queryString = "?";
         if (nameFilter)

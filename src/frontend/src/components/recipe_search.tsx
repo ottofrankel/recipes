@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
 import { Center, VStack, HStack } from "@chakra-ui/layout";
@@ -7,16 +7,20 @@ import { Button } from "@chakra-ui/button";
 import { Select } from "@chakra-ui/select";
 import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
 import { Checkbox } from "@chakra-ui/checkbox";
+import getFilters from "./get_filters";
 
 const RecipeSearch: React.FC = () => {
   const history = useHistory();
+  const location = useLocation();
 
-  const [nameFilter, setNameFilter] = useState('');
-  const [sourceFilter, setSourceFilter] = useState('');
-  const [typeFilter, setTypeFilter] = useState('');
-  const [favFilter, setFavFilter] = useState(false);
-  const [tagFilter, setTagFilter] = useState('');
-  const [sort, setSort] = useState('');
+  const currentFilters = getFilters(location.search);
+
+  const [nameFilter, setNameFilter] = useState(currentFilters.name ?? '');
+  const [sourceFilter, setSourceFilter] = useState(currentFilters.source ?? '');
+  const [typeFilter, setTypeFilter] = useState(currentFilters.type ?? '');
+  const [favFilter, setFavFilter] = useState(currentFilters.fav ?? false);
+  const [tagFilter, setTagFilter] = useState(currentFilters.tags ?? '');
+  const [sort, setSort] = useState(currentFilters.sort ?? '');
 
   const handleSearchClick = () => {
     let queryString: string = "?"

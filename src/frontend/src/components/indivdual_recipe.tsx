@@ -10,6 +10,7 @@ import {
   ModalCloseButton,
   useDisclosure
 } from "@chakra-ui/react"
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import React, { useEffect } from "react"
 import  { HeartOutline, Heart } from "react-ionicons/lib";
 import { RouteComponentProps, useHistory } from "react-router";
@@ -18,6 +19,7 @@ import { IngInterface, RecipeInterface } from "../interfaces";
 import { fetchRecipe, updateRecipe } from "../manage_state/action_dispatch/recipe_actions";
 import { deleteRecipe } from "../manage_state/action_dispatch/recipe_list_actions";
 import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
+import RecipePDF from "./recipe_pdf";
 import TagGrid from "./TagGrid";
 
 interface MatchParams {
@@ -64,8 +66,8 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
   return(
     <div>
-      <Center mt={10}>
-        <VStack spacing={3}>
+      <Center mt={5}>
+        <VStack spacing={3} mb={5}>
           <h2 className="page-title">{recipe.name}</h2>
           <HStack spacing={5}>
             <p className="date">Date created: {recipe.dateAdded}</p>
@@ -122,10 +124,36 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             onClick={onDeleteOpen}
             >
               Delete
-            </Button>
+            </Button>   
           </HStack>
+        
+          <PDFDownloadLink
+              document={
+                <RecipePDF 
+                  name={recipe.name}
+                  source={recipe.source}
+                  type={recipe.type}
+                  ingredients={recipe.ingredients}
+                  instructions={recipe.instructions}
+                  fav={recipe.fav}
+                />
+              }
+              fileName={`${recipe.name}-recipe.pdf`}
+            >
+              {({ blob, url, loading, error }) =>
+              <Button
+                size="xs"
+                color="white"
+                bg={BASE_COLOR}
+                _hover={{bg: BUTTON_HOVER_COLOR}}
+              >
+                {loading ? "Loading document..." : "Download Pdf"}
+              </Button>             
+              }
+            </PDFDownloadLink>
         </VStack>            
       </Center>
+
 
       <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
         <ModalOverlay />

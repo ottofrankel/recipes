@@ -82,7 +82,7 @@ const RecipeSearch: React.FC = () => {
         </Input>
         <p className="tag-instructions"><em>*seperate tags by space</em></p>
 
-        <FormLabel htmlFor="sort">Type:</FormLabel>
+        <FormLabel htmlFor="sort">Sort:</FormLabel>
         <Select 
           id={"sort"}
           placeholder="sort by..."

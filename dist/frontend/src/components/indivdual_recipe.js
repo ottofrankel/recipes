@@ -33,7 +33,6 @@ const IndividualRecipe = (props) => {
     const { isOpen: isEmailOpen, onOpen: onEmailOpen, onClose: onEmailClose } = (0, react_1.useDisclosure)();
     const [emailTo, setEmailTo] = (0, react_2.useState)('');
     const [emailMessage, setEmailMessage] = (0, react_2.useState)('');
-    const [emailError, setEmailError] = (0, react_2.useState)('');
     const recipe = (0, hooks_1.useAppSelector)(state => state.recipe);
     const handleDeleteClick = () => {
         (0, recipe_list_actions_1.deleteRecipe)(recipe._id);

@@ -44,7 +44,6 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
   const [emailTo, setEmailTo] = useState('');
   const [emailMessage, setEmailMessage] = useState('');
-  const [emailError, setEmailError] = useState('');
 
   const recipe: RecipeInterface = useAppSelector(state => state.recipe);
 
@@ -257,9 +256,9 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
                 }}
               >
                 <a
-                className="email-link"
-                href={`mailto:${emailTo}?subject=${recipe.name} recipe&body=${generateEmailBody(recipe, emailMessage)}`}
-                onClick={closeEmailModal}
+                  className="email-link"
+                  href={`mailto:${emailTo}?subject=${recipe.name} recipe&body=${generateEmailBody(recipe, emailMessage)}`}
+                  onClick={closeEmailModal}
                 >
                   Generate email
                 </a>

@@ -17,6 +17,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import React, { useEffect, useState } from "react"
 import  { HeartOutline, Heart } from "react-ionicons/lib";
 import { RouteComponentProps, useHistory } from "react-router";
+import printJS from "print-js";
 import { useAppSelector } from "../hooks";
 import { IngInterface, RecipeInterface } from "../interfaces";
 import { fetchRecipe, updateRecipe } from "../manage_state/action_dispatch/recipe_actions";
@@ -41,6 +42,7 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
   const { isOpen: isDeleteOpen, onOpen: onDeleteOpen, onClose: onDeleteClose } = useDisclosure();
   const { isOpen: isFavOpen, onOpen: onFavOpen, onClose: onFavClose } = useDisclosure();
   const { isOpen: isEmailOpen, onOpen: onEmailOpen, onClose: onEmailClose } = useDisclosure();
+  const { isOpen: isPrintOpen, onOpen: onPrintOpen, onClose: onPrintClose } = useDisclosure();
 
   const [emailTo, setEmailTo] = useState('');
   const [emailMessage, setEmailMessage] = useState('');
@@ -93,7 +95,7 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             <h4><strong>{recipe.type}</strong></h4>
             {recipe.source && <h4><strong>From:</strong> {recipe.source}</h4>}
           </HStack>  
- 
+
           <h4><strong>Ingredients:</strong></h4>
           <List>
             {renderIngredients()}
@@ -103,7 +105,7 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
           <Container maxWidth="70ch">{recipe.instructions}</Container>
 
           <TagGrid recipe={recipe}/>
-
+          
           <HStack>
             {recipe.fav ?
               <Heart 
@@ -177,6 +179,16 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
                 </Button>             
                 }
               </PDFDownloadLink>
+
+              <Button 
+                size="xs"
+                bg={BASE_COLOR}
+                color="white"
+                _hover={{bg: BUTTON_HOVER_COLOR}}
+                onClick={onPrintOpen}
+              >
+                Print Recipe
+              </Button>
           </HStack>
         </VStack>            
       </Center>
@@ -268,6 +280,41 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             }
             
             <Button variant="ghost" onClick={closeEmailModal}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      <Modal isOpen={isPrintOpen} onClose={onPrintClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton />
+
+          <Box id="print-recipe" ml={5}>
+            <h2 className="page-title">{recipe.name}</h2>
+            <h4><strong>Ingredients:</strong></h4>
+            <List>
+              {renderIngredients()}
+            </List>     
+          
+            <h4><strong>Instructions:</strong></h4>
+            <Container maxWidth="100ch">{recipe.instructions}</Container>
+          </Box>
+
+          <ModalFooter>
+            <Button 
+              color="white"
+              bg={BASE_COLOR}
+              mr={3}
+              _hover={{bg: BUTTON_HOVER_COLOR}}
+              onClick={() => {
+                printJS({printable: "print-recipe", type:"html"});
+                onPrintClose();
+              }}
+            >
+              Confirm
+            </Button>
+
+            <Button variant="ghost" onClick={onPrintClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

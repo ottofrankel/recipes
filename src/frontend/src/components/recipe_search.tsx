@@ -18,7 +18,7 @@ const RecipeSearch: React.FC = () => {
   const [nameFilter, setNameFilter] = useState(currentFilters.name ?? '');
   const [sourceFilter, setSourceFilter] = useState(currentFilters.source ?? '');
   const [typeFilter, setTypeFilter] = useState(currentFilters.type ?? '');
-  const [favFilter, setFavFilter] = useState(currentFilters.fav ?? false);
+  const [favFilter, setFavFilter] = useState(currentFilters.fav ? currentFilters.fav === true : false);
   const [tagFilter, setTagFilter] = useState(currentFilters.tags ?? '');
   const [sort, setSort] = useState(currentFilters.sort ?? '');
 
@@ -107,6 +107,7 @@ const RecipeSearch: React.FC = () => {
           size="sm" 
           iconColor={BASE_COLOR}
           colorScheme="grey"
+          isChecked={favFilter}
           onChange={() => setFavFilter(!favFilter)}
           >
             Favorites only?

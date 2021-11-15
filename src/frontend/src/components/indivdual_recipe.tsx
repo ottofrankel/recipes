@@ -85,7 +85,10 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
     <div>
       <Center mt={5}>
         <VStack spacing={3} mb={5}>
-          <h2 className="page-title">{recipe.name}</h2>
+          <Box textStyle="pageTitle">
+            <h2 >{recipe.name}</h2>
+          </Box>
+          
           <HStack spacing={5}>
             <p className="date">Date created: {recipe.dateAdded}</p>
             {recipe.dateUpdated && <p className="date">Last updated: {recipe.dateUpdated}</p>}
@@ -290,7 +293,10 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
           <ModalCloseButton />
 
           <Box id="print-recipe" ml={5}>
-            <h2 className="page-title">{recipe.name}</h2>
+            <Box textStyle="pageTitle">
+              <h2>{recipe.name}</h2>
+            </Box>
+  
             <h4><strong>Ingredients:</strong></h4>
             <List>
               {renderIngredients()}

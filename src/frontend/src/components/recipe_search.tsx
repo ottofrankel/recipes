@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import { FormLabel } from "@chakra-ui/form-control";
 import { Input } from "@chakra-ui/input";
-import { Center, VStack, HStack } from "@chakra-ui/layout";
+import { Center, VStack, HStack, Box } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { Select } from "@chakra-ui/select";
 import { BASE_COLOR, BUTTON_HOVER_COLOR } from "../styles/colors";
@@ -38,8 +38,10 @@ const RecipeSearch: React.FC = () => {
   return (
     <Center>
       <VStack>
-        <h2 className="page-title">Search Recipes:</h2>
-
+        <Box textStyle="pageTitle">
+          <h2>Search Recipes:</h2>
+        </Box>
+        
         <FormLabel htmlFor="filter-name">Name:</FormLabel>
         <Input
           value={nameFilter}

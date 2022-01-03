@@ -8,14 +8,14 @@ const breakPoints = createBreakpoints({
   xl: "2000px",
 })
 
-const textStyles = {
-  pageTitle: {
-    color: "#16a085",
-    fontWeight: "300",
-    fontSize: "250%",
-  }
-}
+// const textStyles = {
+//   pageTitle: {
+//     color: "#16a085",
+//     fontWeight: "300",
+//     fontSize: "250%",
+//   }
+// }
 
-const theme = extendTheme({breakPoints, textStyles});
+const theme = extendTheme({breakPoints});
 
 export default theme;

@@ -18,8 +18,8 @@ const UpdateRecipeForm: React.FC<RouteComponentProps<MatchParams>> = (props) => 
 
   return (
     <div>
-      <Center>
-        <h2 className="page-title">Update Recipe:</h2>
+      <Center textStyle="pageTitle">
+        <h2>Update Recipe:</h2>
       </Center>
 
       <RecipeForm recipe={recipe} formType="update" />

@@ -220,7 +220,7 @@ const RecipeForm: React.FC<Props> = ({
           {errors.ingredients && <p className="validationError">{errors.ingredients}</p>}
         </Box>
         
-        <Box w={550}>
+        <Box w={{base: 550, sm: 450}}>
           <FormLabel htmlFor="recipe-instructions">Instructions:</FormLabel>
           <Textarea 
            resize="vertical"

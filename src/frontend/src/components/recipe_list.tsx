@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useLocation, useHistory } from "react-router";
-import { SimpleGrid, Center, VStack } from "@chakra-ui/layout";
+import { SimpleGrid, Center, VStack, Box } from "@chakra-ui/layout";
 import { Button } from "@chakra-ui/button";
 import { useAppSelector } from "../hooks";
 import { fetchFavs, fetchRecipes } from "../manage_state/action_dispatch/recipe_list_actions";
@@ -55,7 +55,10 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
       {!favsOnly && 
         <Center>
           <VStack>
-            <h2 className="page-title">Recipes:</h2>
+            <Box textStyle="pageTitle">
+              <h2>Recipes:</h2>
+            </Box>
+            
 
             {currentFilters.hasFilter &&
             <p>
@@ -81,7 +84,11 @@ const RecipeList: React.FC<Props> = ({ favsOnly }) => {
         </Center>
       }
       
-      <SimpleGrid columns={[1, 3, 4]} spacing={10} m={3}>
+      <SimpleGrid 
+        columns={{xl: 4, lg: 3, md: 2, sm: 1}} 
+        spacing={[4, 7, 10]} 
+        m={3}
+      >
         {renderRecipes()}
       </SimpleGrid>
     </div>

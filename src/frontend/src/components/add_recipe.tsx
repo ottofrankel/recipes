@@ -18,8 +18,8 @@ const AddRecipeForm: React.FC = () => {
  
   return (
     <div>
-      <Center>
-        <h2 className="page-title">Add Recipe: </h2>
+      <Center textStyle="pageTitle">
+        <h2>Add Recipe: </h2>
       </Center>
 
       <RecipeForm recipe={{

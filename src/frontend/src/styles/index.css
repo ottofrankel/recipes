@@ -77,3 +77,45 @@ code {
 .list-item-dates {
   font-size: 80%;
 }
+
+@media screen and (max-width: 1600px) {
+  .nav-link {
+    font-size: 80%;
+  }
+}
+
+@media screen and (max-width: 1308px) {
+  .nav-link {
+    font-size: 75%;
+  }
+}
+
+@media screen and (max-width: 1235px) {
+  .nav-link {
+    font-size: 70%;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  html {font-size: 18px;}
+}
+
+@media screen and (max-width: 868px) {
+  html {font-size: 16px;}
+}
+
+@media screen and (max-width: 652px) {
+  .site-title {font-size: 90%;}
+}
+
+@media screen and (max-width: 593px) {
+  .site-title {font-size: 70%;}
+}
+
+@media screen and (max-width: 510px) {
+  .site-title {font-size: 60%;}
+}
+
+@media screen and (max-width: 469px) {
+  .site-title {font-size: 50%;}
+}

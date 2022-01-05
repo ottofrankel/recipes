@@ -107,3 +107,15 @@ code {
 @media screen and (max-width: 652px) {
   .site-title {font-size: 90%;}
 }
+
+@media screen and (max-width: 593px) {
+  .site-title {font-size: 70%;}
+}
+
+@media screen and (max-width: 510px) {
+  .site-title {font-size: 60%;}
+}
+
+@media screen and (max-width: 469px) {
+  .site-title {font-size: 50%;}
+}

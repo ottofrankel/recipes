@@ -81,221 +81,24 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
     )
   }
 
-  return(
-    <div>
-      <Center mt={5}>
-        <VStack spacing={3} mb={5}>
-          <Box textStyle="pageTitle">
-            <h2 >{recipe.name}</h2>
-          </Box>
-          
-          <HStack spacing={5}>
-            <p className="date">Date created: {recipe.dateAdded}</p>
-            {recipe.dateUpdated && <p className="date">Last updated: {recipe.dateUpdated}</p>}
-          </HStack> 
-
-          <HStack spacing={10}>
-            <h4><strong>{recipe.type}</strong></h4>
-            {recipe.source && <h4><strong>From:</strong> {recipe.source}</h4>}
-          </HStack>  
-
-          <h4><strong>Ingredients:</strong></h4>
-          <List>
-            {renderIngredients()}
-          </List>     
-        
-          <h4><strong>Instructions:</strong></h4>
-          <Container maxWidth="70ch">{recipe.instructions}</Container>
-
-          <TagGrid recipe={recipe}/>
-          
-          <HStack>
-            {recipe.fav ?
-              <Heart 
-               color={BASE_COLOR}
-               cssClasses="fav-icon" 
-               height="50px"
-               width="30px"
-               title="Remove from favorites"
-               onClick={toggleFav}/>
-              :
-              <HeartOutline 
-              color={BASE_COLOR} 
-              cssClasses="fav-icon" 
-              height="50px"
-              width="30px"
-              title="Add to favorites"
-              onClick={toggleFav}/>
-            }
-
-            <Button 
-            size="xs"
-            bg={BASE_COLOR}
-            color="white"
-            _hover={{bg: BUTTON_HOVER_COLOR}}
-            onClick={() => history.push("/update-recipe/" + recipe._id)}
-            >
-              Update Recipe
-            </Button>
-
-            <Button 
-            size="xs"
-            colorScheme="red"
-            onClick={onDeleteOpen}
-            >
-              Delete
-            </Button>   
-          </HStack>
-
-          <HStack>
-            <Button
-              size="xs"
-              bg={BASE_COLOR}
-              color="white"
-              _hover={{bg: BUTTON_HOVER_COLOR}}
-              onClick={onEmailOpen}
-            >
-              Email recipe
-            </Button>
-
-            <PDFDownloadLink
-                document={
-                  <RecipePDF 
-                    name={recipe.name}
-                    source={recipe.source}
-                    type={recipe.type}
-                    ingredients={recipe.ingredients}
-                    instructions={recipe.instructions}
-                    fav={recipe.fav}
-                  />
-                }
-                fileName={`${recipe.name}-recipe.pdf`}
-              >
-                {({ blob, url, loading, error }) =>
-                <Button
-                  size="xs"
-                  color="white"
-                  bg={BASE_COLOR}
-                  _hover={{bg: BUTTON_HOVER_COLOR}}
-                >
-                  {loading ? "Loading document..." : "Download PDF"}
-                </Button>             
-                }
-              </PDFDownloadLink>
-
-              <Button 
-                size="xs"
-                bg={BASE_COLOR}
-                color="white"
-                _hover={{bg: BUTTON_HOVER_COLOR}}
-                onClick={onPrintOpen}
-              >
-                Print Recipe
-              </Button>
-          </HStack>
-        </VStack>            
-      </Center>
-
-
-      <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Delete '{recipe.name}'?</ModalHeader>
-          <ModalCloseButton />
-
-          <ModalFooter>
-            <Button 
-              colorScheme="red" 
-              mr={3} 
-              onClick={handleDeleteClick}>
-              Delete
-            </Button>
-            <Button variant="ghost" onClick={onDeleteClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <Modal isOpen={isFavOpen} onClose={onFavClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>'{recipe.name}' {recipe.fav ? 'added to ' : 'removed from '} favorites</ModalHeader>
-          <ModalCloseButton />
-
-          <ModalFooter>
-            <Button 
-              color="white"
-              bg={BASE_COLOR}
-              mr={3}
-              _hover={{bg: BUTTON_HOVER_COLOR}}
-              onClick={onFavClose}
-            >
-              Ok
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <Modal isOpen={isEmailOpen} onClose={closeEmailModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Send '{recipe.name}' in an email:</ModalHeader>
-          <ModalCloseButton />
-          
-          <Box mr={3} ml={3}>
-            <FormLabel htmlFor="email-to">Send to:</FormLabel>
-            <Input
-              value={emailTo}
-              id={"email-to"}
-              type="email"
-              onChange={e => setEmailTo(e.target.value)}
-            />
-          </Box>
-          
-          <Box mr={3} ml={3}>
-            <FormLabel htmlFor="email-message">Include a message (optional):</FormLabel>
-            <Textarea
-              value={emailMessage}
-              id={"email-message"}
-              fontSize={14}
-              onChange={e => setEmailMessage(e.target.value)}
-            />
-          </Box>
-
-          <ModalFooter>
-            {validateEmail(emailTo) ?
-              <Button
-                mr={3}
-                color="white"
-                bg={BASE_COLOR}
-                _hover={{bg: BUTTON_HOVER_COLOR
-                }}
-              >
-                <a
-                  className="email-link"
-                  href={`mailto:${emailTo}?subject=${recipe.name} recipe&body=${generateEmailBody(recipe, emailMessage)}`}
-                  onClick={closeEmailModal}
-                >
-                  Generate email
-                </a>
-              </Button>
-              :
-              <p>Please enter a valid email.</p>
-            }
-            
-            <Button variant="ghost" onClick={closeEmailModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      <Modal isOpen={isPrintOpen} onClose={onPrintClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalCloseButton />
-
-          <Box id="print-recipe" ml={5}>
+  if (recipe.name) {
+    return(
+      <div>
+        <Center mt={5}>
+          <VStack spacing={3} mb={5}>
             <Box textStyle="pageTitle">
-              <h2>{recipe.name}</h2>
+              <h2 >{recipe.name}</h2>
             </Box>
+            
+            <HStack spacing={5}>
+              <p className="date">Date created: {recipe.dateAdded}</p>
+              {recipe.dateUpdated && <p className="date">Last updated: {recipe.dateUpdated}</p>}
+            </HStack> 
+  
+            <HStack spacing={10}>
+              <h4><strong>{recipe.type}</strong></h4>
+              {recipe.source && <h4><strong>From:</strong> {recipe.source}</h4>}
+            </HStack>  
   
             <h4><strong>Ingredients:</strong></h4>
             <List>
@@ -303,30 +106,236 @@ const IndividualRecipe: React.FC<RouteComponentProps<MatchParams>> = (props) => 
             </List>     
           
             <h4><strong>Instructions:</strong></h4>
-            <Container maxWidth="100ch">{recipe.instructions}</Container>
-          </Box>
-
-          <ModalFooter>
-            <Button 
-              color="white"
+            <Container maxWidth="70ch">{recipe.instructions}</Container>
+  
+            <TagGrid recipe={recipe}/>
+            
+            <HStack>
+              {recipe.fav ?
+                <Heart 
+                 color={BASE_COLOR}
+                 cssClasses="fav-icon" 
+                 height="50px"
+                 width="30px"
+                 title="Remove from favorites"
+                 onClick={toggleFav}/>
+                :
+                <HeartOutline 
+                color={BASE_COLOR} 
+                cssClasses="fav-icon" 
+                height="50px"
+                width="30px"
+                title="Add to favorites"
+                onClick={toggleFav}/>
+              }
+  
+              <Button 
+              size="xs"
               bg={BASE_COLOR}
-              mr={3}
+              color="white"
               _hover={{bg: BUTTON_HOVER_COLOR}}
-              onClick={() => {
-                printJS({printable: "print-recipe", type:"html"});
-                onPrintClose();
-              }}
-            >
-              Confirm
-            </Button>
-
-            <Button variant="ghost" onClick={onPrintClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-    </div>
-  )
+              onClick={() => history.push("/update-recipe/" + recipe._id)}
+              >
+                Update Recipe
+              </Button>
+  
+              <Button 
+              size="xs"
+              colorScheme="red"
+              onClick={onDeleteOpen}
+              >
+                Delete
+              </Button>   
+            </HStack>
+  
+            <HStack>
+              <Button
+                size="xs"
+                bg={BASE_COLOR}
+                color="white"
+                _hover={{bg: BUTTON_HOVER_COLOR}}
+                onClick={onEmailOpen}
+              >
+                Email recipe
+              </Button>
+  
+              <PDFDownloadLink
+                  document={
+                    <RecipePDF 
+                      name={recipe.name}
+                      source={recipe.source}
+                      type={recipe.type}
+                      ingredients={recipe.ingredients}
+                      instructions={recipe.instructions}
+                      fav={recipe.fav}
+                    />
+                  }
+                  fileName={`${recipe.name}-recipe.pdf`}
+                >
+                  {({ blob, url, loading, error }) =>
+                  <Button
+                    size="xs"
+                    color="white"
+                    bg={BASE_COLOR}
+                    _hover={{bg: BUTTON_HOVER_COLOR}}
+                  >
+                    {loading ? "Loading document..." : "Download PDF"}
+                  </Button>             
+                  }
+                </PDFDownloadLink>
+  
+                <Button 
+                  size="xs"
+                  bg={BASE_COLOR}
+                  color="white"
+                  _hover={{bg: BUTTON_HOVER_COLOR}}
+                  onClick={onPrintOpen}
+                >
+                  Print Recipe
+                </Button>
+            </HStack>
+          </VStack>            
+        </Center>
+  
+  
+        <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Delete '{recipe.name}'?</ModalHeader>
+            <ModalCloseButton />
+  
+            <ModalFooter>
+              <Button 
+                colorScheme="red" 
+                mr={3} 
+                onClick={handleDeleteClick}>
+                Delete
+              </Button>
+              <Button variant="ghost" onClick={onDeleteClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+  
+        <Modal isOpen={isFavOpen} onClose={onFavClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>'{recipe.name}' {recipe.fav ? 'added to ' : 'removed from '} favorites</ModalHeader>
+            <ModalCloseButton />
+  
+            <ModalFooter>
+              <Button 
+                color="white"
+                bg={BASE_COLOR}
+                mr={3}
+                _hover={{bg: BUTTON_HOVER_COLOR}}
+                onClick={onFavClose}
+              >
+                Ok
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+  
+        <Modal isOpen={isEmailOpen} onClose={closeEmailModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Send '{recipe.name}' in an email:</ModalHeader>
+            <ModalCloseButton />
+            
+            <Box mr={3} ml={3}>
+              <FormLabel htmlFor="email-to">Send to:</FormLabel>
+              <Input
+                value={emailTo}
+                id={"email-to"}
+                type="email"
+                onChange={e => setEmailTo(e.target.value)}
+              />
+            </Box>
+            
+            <Box mr={3} ml={3}>
+              <FormLabel htmlFor="email-message">Include a message (optional):</FormLabel>
+              <Textarea
+                value={emailMessage}
+                id={"email-message"}
+                fontSize={14}
+                onChange={e => setEmailMessage(e.target.value)}
+              />
+            </Box>
+  
+            <ModalFooter>
+              {validateEmail(emailTo) ?
+                <Button
+                  mr={3}
+                  color="white"
+                  bg={BASE_COLOR}
+                  _hover={{bg: BUTTON_HOVER_COLOR
+                  }}
+                >
+                  <a
+                    className="email-link"
+                    href={`mailto:${emailTo}?subject=${recipe.name} recipe&body=${generateEmailBody(recipe, emailMessage)}`}
+                    onClick={closeEmailModal}
+                  >
+                    Generate email
+                  </a>
+                </Button>
+                :
+                <p>Please enter a valid email.</p>
+              }
+              
+              <Button variant="ghost" onClick={closeEmailModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+  
+        <Modal isOpen={isPrintOpen} onClose={onPrintClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalCloseButton />
+  
+            <Box id="print-recipe" ml={5}>
+              <Box textStyle="pageTitle">
+                <h2>{recipe.name}</h2>
+              </Box>
+    
+              <h4><strong>Ingredients:</strong></h4>
+              <List>
+                {renderIngredients()}
+              </List>     
+            
+              <h4><strong>Instructions:</strong></h4>
+              <Container maxWidth="100ch">{recipe.instructions}</Container>
+            </Box>
+  
+            <ModalFooter>
+              <Button 
+                color="white"
+                bg={BASE_COLOR}
+                mr={3}
+                _hover={{bg: BUTTON_HOVER_COLOR}}
+                onClick={() => {
+                  printJS({printable: "print-recipe", type:"html"});
+                  onPrintClose();
+                }}
+              >
+                Confirm
+              </Button>
+  
+              <Button variant="ghost" onClick={onPrintClose}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+  
+      </div>
+    )
+  } else {
+    return (
+      <Box textStyle="pageTitle">
+        <h2 >Recipe not found</h2>
+      </Box>
+    )
+  }
+ 
 }
 
 export default IndividualRecipe;

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server/index.ts",
-    "build": "tsc --project .",
-    "postinstall": "npm run tsbuild",
+    "build": "tsc -p",
+    "postinstall": "npm run build",
     "build-prod": "cd src/frontend && npm install && npm run build && cd .. && npm install && npm run build",
     "install-client": "npm install",
     "heroku-postbuild": "npm run install-client && npm run build",

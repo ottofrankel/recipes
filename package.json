@@ -7,8 +7,8 @@
     "dev": "nodemon src/server/index.ts",
     "tsbuild": "tsc -p .",
     "postinstall": "tsc",
-    "build": "cd src/frontend/build && npm run build && npm run tsbuild",
-    "install-client": "cd dist/frontend/build && npm install",
+    "build": "cd src/frontend && npm run build",
+    "install-client": "cd src/frontend/build && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
     "start": "node dist/server/index.js"
   },
@@ -30,5 +30,6 @@
     "nodemon": "^2.0.13",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
-  }
+  },
+  "engines": { "node": "v14.17.1"}
 }

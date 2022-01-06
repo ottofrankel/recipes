@@ -7,6 +7,6 @@ const jsx_runtime_1 = require("react/jsx-runtime");
 const layout_1 = require("@chakra-ui/layout");
 const recipe_list_1 = __importDefault(require("./recipe_list"));
 const Homescreen = () => {
-    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(layout_1.Center, { children: (0, jsx_runtime_1.jsx)("h2", Object.assign({ className: "page-title" }, { children: "Your Favorites" }), void 0) }, void 0), (0, jsx_runtime_1.jsx)(recipe_list_1.default, { favsOnly: true }, void 0)] }, void 0));
+    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(layout_1.Center, Object.assign({ textStyle: "pageTitle" }, { children: (0, jsx_runtime_1.jsx)("h2", { children: "Your Favorites" }, void 0) }), void 0), (0, jsx_runtime_1.jsx)(recipe_list_1.default, { favsOnly: true }, void 0)] }, void 0));
 };
 exports.default = Homescreen;

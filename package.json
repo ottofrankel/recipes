@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server/index.ts",
-    "build": "tsc -p ."
+    "tsbuild": "tsc -p .",
+    "postinstall": "tsc",
+    "build": "cd src/frontend/build && npm run build && npm run tsbuild",
+    "install-client": "cd dist/frontend/build && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "node dist/server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +19,7 @@
     "@react-pdf/renderer": "^1.6.17",
     "@types/react-pdf": "^5.0.7",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.10"
   },

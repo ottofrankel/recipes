@@ -16,7 +16,7 @@ const AddRecipeForm = () => {
         };
         initialIngs.push(ingInput);
     }
-    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(layout_1.Center, { children: (0, jsx_runtime_1.jsx)("h2", Object.assign({ className: "page-title" }, { children: "Add Recipe: " }), void 0) }, void 0), (0, jsx_runtime_1.jsx)(recipe_form_1.default, { recipe: {
+    return ((0, jsx_runtime_1.jsxs)("div", { children: [(0, jsx_runtime_1.jsx)(layout_1.Center, Object.assign({ textStyle: "pageTitle" }, { children: (0, jsx_runtime_1.jsx)("h2", { children: "Add Recipe: " }, void 0) }), void 0), (0, jsx_runtime_1.jsx)(recipe_form_1.default, { recipe: {
                     name: "",
                     source: "",
                     type: "",
